@@ -71,19 +71,19 @@ const ExploreStudiosClient = ({ studios }: Props) => {
     value.split("-").join(" ");
 
   return (
-    <section className="min-h-screen bg-white px-5 py-12 md:px-10">
+    <section className="min-h-screen  bg-[#F5F1E8]  px-5 py-12 md:px-10">
 
       <div className="mx-auto max-w-7xl">
 
         {/* Header */}
         <div className="mb-12">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[3px] text-emerald-600">
-            Find Your Creative Space
-          </p>
+              <p className="mb-3 text-sm font-bold uppercase tracking-[3px] text-[#C58B55]">
+              Find Your Creative Space
+            </p>
 
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
-            Explore Studios
-          </h1>
+            <h1 className="text-4xl font-extrabold tracking-tight text-[#24352D] md:text-5xl">
+              Explore Studios
+            </h1>
 
           <p className="mt-3 text-lg text-slate-500">
             Discover {studios.length} creative studios available for booking
@@ -178,7 +178,7 @@ const ExploreStudiosClient = ({ studios }: Props) => {
   {filteredStudios.map((studio) => (
     <div
       key={studio._id}
-      className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+     className="group overflow-hidden rounded-2xl border border-[#E7DFD2] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       {/* Image */}
       <div className="relative h-64 overflow-hidden bg-slate-100">
@@ -195,7 +195,7 @@ const ExploreStudiosClient = ({ studios }: Props) => {
 
         {/* Price */}
         <div className="absolute right-5 top-5 rounded-xl bg-white px-4 py-3 shadow-md">
-          <span className="text-xl font-extrabold text-emerald-700">
+          <span className="text-xl font-extrabold text-[#24352D]">
             ৳{studio.pricePerHour}
           </span>
           <span className="text-sm text-slate-400">/hr</span>
@@ -225,7 +225,7 @@ const ExploreStudiosClient = ({ studios }: Props) => {
         {/* Availability & Details Button */}
         <div className="flex items-center justify-between border-t border-slate-100 pt-5">
           {studio.isAvailable ? (
-            <span className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
+            <span className="flex items-center gap-2 text-sm font-semibold text-[#24352D]">
               <CheckCircle2 size={18} />
               Available
             </span>
@@ -238,7 +238,7 @@ const ExploreStudiosClient = ({ studios }: Props) => {
 
           <Link
             href={`/explore-studios/${studio._id}`}
-            className="rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
+            className="rounded-lg  bg-[#24352D] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#344A3F]"
           >
             View Details →
           </Link>

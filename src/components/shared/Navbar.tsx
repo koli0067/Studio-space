@@ -9,8 +9,8 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "Explore Studios", href: "/explore-studios" },
   { name: "Add Studio", href: "/add-studios" },
-  { name: "My Listings", href: "/my-listings" },
   { name: "My Bookings", href: "/my-bookings" },
+  { name: "Manage Studios", href: "/my-listings" },
 ];
 
 export default function Navbar() {
