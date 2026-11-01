@@ -98,7 +98,7 @@ export default function PopularCategories() {
                 </p>
 
                 <Link
-                  href={`/explore?category=${encodeURIComponent(category.title)}`}
+                  href={`/explore-studios?category=${encodeURIComponent(category.title)}`}
                   className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#C58B55] transition hover:gap-3"
                 >
                   Explore Studios

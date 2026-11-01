@@ -9,6 +9,7 @@ import {
   ArrowLeft,
   Camera,
 } from "lucide-react";
+import BookingButton from "../_component/BookingButton";
 
 interface Studio {
   _id: string;
@@ -252,7 +253,7 @@ export default async function StudioDetailsPage({
 
 
                 {/* Booking Button */}
-                <Link
+                {/* <Link
                 href={`/my-bookings/${studio._id}`}
                 className={`mt-6 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-4 text-base font-bold shadow-md transition ${
                     studio.isAvailable
@@ -263,7 +264,11 @@ export default async function StudioDetailsPage({
                 >
                 {studio.isAvailable ? "Book This Studio" : "Currently Unavailable"}
                 {studio.isAvailable && <ArrowLeft className="rotate-180" size={18} />}
-                </Link>
+                </Link> */}
+                <BookingButton
+                    studioId={studio._id}
+                    isAvailable={studio.isAvailable}
+                    />
 
               </div>
             </div>
