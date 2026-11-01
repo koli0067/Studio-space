@@ -7,7 +7,7 @@ import { Camera, Menu, X } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Explore Studios", href: "/explore" },
+  { name: "Explore Studios", href: "/explore-studios" },
   { name: "Add Studio", href: "/add-studios" },
   { name: "My Listings", href: "/my-listings" },
   { name: "My Bookings", href: "/my-bookings" },
