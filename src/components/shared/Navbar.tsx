@@ -20,7 +20,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-[#E8E3D9] bg-[#F5F1E8]/95 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between py-5">
 
-        {/* Logo */}
+        {/*navbar  Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#24352D] text-white">
             <Camera size={27} strokeWidth={2} />
