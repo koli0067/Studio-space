@@ -52,6 +52,7 @@ export default function RegisterPage() {
   const handleGoogle = async () => {
     try {
       await signIn.social({ provider: "google", callbackURL: "/" });
+      window.location.href = "/";
     } catch {
       toast.error("Google login failed");
     }
