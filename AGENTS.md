@@ -1,69 +1,38 @@
-# StudioSpace – Creative Studio Booking Platform
+# StudioSpace – Agent Guidelines
 
-**Live Website:** https://studio-space-six.vercel.app/
+## Project Overview
+StudioSpace is a peer-to-peer creative workspace and photography studio booking platform built with Next.js and Express.js.
 
-## About
+## Development Guidelines
 
-StudioSpace is a peer-to-peer creative workspace booking platform where creators can discover, explore, and book professional studios. Studio owners can also list and manage their creative spaces.
+- Follow the existing project folder structure.
+- Write clean, readable, and reusable code.
+- Use TypeScript for frontend development.
+- Use Tailwind CSS and shadcn/ui for UI components.
+- Maintain consistent colors, spacing, typography, and button styles.
+- Keep the design responsive across mobile, tablet, and desktop devices.
+- Use meaningful variable, function, and component names.
+- Avoid unnecessary code duplication.
+- Use React Hot Toast for success and error notifications.
+- Never use Lorem Ipsum or default browser alerts.
+- Protect private routes and maintain authentication state.
+- Handle loading states and errors properly.
+- Keep API endpoints and environment variables organized.
+- Never expose passwords, API keys, database credentials, or authentication secrets.
+- Do not modify existing functionality unnecessarily.
 
-## Key Features
+## Design Theme
 
-- Explore photography studios and creative workspaces.
-- Browse studios by different categories.
-- View studio details, pricing, location, and facilities.
-- Add, update, and delete studio listings.
-- Book studios and manage reservations.
-- User authentication and protected routes.
-- Responsive design for all devices.
+Maintain the StudioSpace design identity:
 
-## Technology Stack
+- Background: `#F5F1E8`
+- Dark Green: `#24352D`
+- Accent: `#C58B55`
+- Border: `#E8E3D9`
 
-**Frontend:**
-- Next.js
-- React.js
-- TypeScript
-- Tailwind CSS
-- shadcn/ui
-- Lucide React
-- React Hot Toast
+## Important Instructions
 
-**Backend:**
-- Node.js
-- Express.js
-- MongoDB
-- Better Auth
-- Nodemon
-
-## Local Setup
-
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/koli0067/Studio-space
-cd StudioSpace
-```
-
-**2. Setup Backend**
-
-```bash
-cd server
-npm install
-npm run dev
-```
-
-**3. Setup Frontend**
-
-Open another terminal:
-
-```bash
-cd client
-npm install
-npm run dev
-```
-
-
-## Author
-
-**Koli Khatun**
-
-Frontend Developer | Aspiring Full-Stack Developer
+- Follow the assignment requirements when adding features.
+- Test functionality before considering a task complete.
+- Maintain consistent UI across all pages.
+- Do not claim a feature is completed unless it actually works.
