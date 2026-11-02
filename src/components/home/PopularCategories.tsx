@@ -93,6 +93,7 @@ export default function PopularCategories() {
                   className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#C58B55] transition hover:gap-3"
                 >
                   Explore Studios
+                  
                   <ArrowUpRight size={17} />
                 </Link>
               </div>
