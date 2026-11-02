@@ -255,10 +255,15 @@ export default async function StudioDetailsPage({
 
 
                 {/* Booking Button */}
-                <BookingButton
+                {/* <BookingButton
                     studioId={studio._id}
                     isAvailable={studio.isAvailable}
-                    />
+                    /> */}
+                    <BookingButton
+  studioId={studio._id}
+  isAvailable={studio.isAvailable}
+  pricePerHour={studio.pricePerHour}
+/>
 
               </div>
             </div>

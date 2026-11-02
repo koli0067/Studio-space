@@ -2,16 +2,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "@/lib/auth-client";
 import Link from "next/link";
-import { Spinner } from "@/components/ui/spinner";
+import Image from "next/image";
+import { useSession } from "@/lib/auth-client";
+import toast, { Toaster } from "react-hot-toast";
 import {
-  MapPin,
-  Clock,
-  Users,
   CalendarDays,
-  CheckCircle2,
-  Building2,
+  Clock,
+  MapPin,
+  Users,
+  ArrowUpRight,
+  Loader2,
+  XCircle,
+  AlertTriangle,
 } from "lucide-react";
 
 interface Booking {
@@ -26,8 +29,13 @@ interface Booking {
   pricePerHour: number;
   capacity: number;
   facilities: string[];
+  bookingDate: string;
+  startTime: string;
+  endTime: string;
+  totalHours: number;
+  totalPrice: number;
+  status: "Pending" | "Confirmed" | "Completed" | "Cancelled";
   bookedAt: string;
-  status: string;
 }
 
 const MyBookingsPage = () => {
@@ -35,29 +43,31 @@ const MyBookingsPage = () => {
 
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
+    null
+  );
 
-  const user = session?.user;
+  const userEmail = session?.user?.email;
 
+  // Fetch bookings
   useEffect(() => {
     if (isPending) return;
 
-    if (!user?.email) {
-      setBookings([]);
+    if (!userEmail) {
       setLoading(false);
       return;
     }
 
-    const fetchMyBookings = async () => {
+    const fetchBookings = async () => {
       try {
         setLoading(true);
-        setError("");
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${encodeURIComponent(user.email)}`,
-          {
-            cache: "no-store",
-          }
+          `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${encodeURIComponent(
+            userEmail
+          )}`,
+          { cache: "no-store" }
         );
 
         if (!response.ok) {
@@ -66,203 +76,397 @@ const MyBookingsPage = () => {
 
         const data = await response.json();
 
-        setBookings(Array.isArray(data) ? data : []);
+        setBookings(data);
       } catch (error) {
-        console.error("My Bookings Error:", error);
-        setError("Could not load your bookings. Please try again.");
+        console.error(error);
+        toast.error("Could not load your bookings!");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMyBookings();
-  }, [user?.email, isPending]);
+    fetchBookings();
+  }, [userEmail, isPending]);
+
+  // Cancel booking
+  const handleCancelBooking = async () => {
+    if (!userEmail || !selectedBookingId || cancellingId) return;
+
+    const bookingId = selectedBookingId;
+
+    try {
+      setCancellingId(bookingId);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${bookingId}/cancel`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userEmail,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        toast.error(result.message || "Could not cancel booking!");
+        return;
+      }
+
+      // Update booking status without removing the card
+      setBookings((prev) =>
+        prev.map((booking) =>
+          booking._id === bookingId
+            ? { ...booking, status: "Cancelled" }
+            : booking
+        )
+      );
+
+      setSelectedBookingId(null);
+
+      toast.success("Booking cancelled successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong!");
+    } finally {
+      setCancellingId(null);
+    }
+  };
+
+  const getStatusStyle = (status: Booking["status"]) => {
+    switch (status) {
+      case "Pending":
+        return "bg-amber-100 text-amber-700";
+
+      case "Confirmed":
+        return "bg-green-100 text-green-700";
+
+      case "Completed":
+        return "bg-blue-100 text-blue-700";
+
+      case "Cancelled":
+        return "bg-red-100 text-red-700";
+
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
 
   if (isPending || loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <Spinner className="h-10 w-10" />
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <Loader2 className="h-10 w-10 animate-spin text-[#24352D]" />
       </div>
     );
   }
 
-  if (!user) {
+  if (!userEmail) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-lg font-medium text-gray-600">
-          Please login to see your bookings.
-        </p>
-      </div>
-    );
-  }
+      <div className="flex min-h-[70vh] items-center justify-center px-4">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-[#1F2924]">
+            Please Login First
+          </h2>
 
-  if (error) {
-    return (
-      <div className="py-20 text-center text-red-500">
-        {error}
+          <p className="mt-2 text-slate-500">
+            Login to see your studio bookings.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <section className="min-h-screen bg-gray-50 px-4 py-10 md:px-8">
-      <div className="mx-auto max-w-7xl">
+    <div className="min-h-screen bg-[#FBFBFA] px-4 py-10 md:px-8">
+      <Toaster position="top-right" />
+
+      <div className="mx-auto max-w-6xl">
 
         {/* Header */}
         <div className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-green-600">
-            Dashboard
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-[#8C6D4F]">
+            Your Reservations
           </p>
 
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-[#1F2924] md:text-4xl">
             My Bookings
           </h1>
 
-          <p className="mt-2 text-gray-500">
-            Manage the studios you have booked.
+          <p className="mt-2 text-slate-500">
+            Manage your studio reservations and booking details.
           </p>
+        </div>
 
-          <p className="mt-1 text-sm text-gray-400">
-            {user.email}
+        {/* Booking Count */}
+        <div className="mb-6 rounded-xl border border-slate-200 bg-white p-5">
+          <p className="text-sm text-slate-500">Total Bookings</p>
+
+          <p className="mt-1 text-3xl font-bold text-[#24352D]">
+            {bookings.length}
           </p>
         </div>
 
         {/* Empty State */}
         {bookings.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-20 text-center">
-            <Building2 className="mx-auto mb-4 h-14 w-14 text-gray-300" />
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
+            <CalendarDays
+              size={48}
+              className="mx-auto text-slate-300"
+            />
 
-            <h2 className="text-xl font-semibold text-gray-800">
-              No Bookings Found
+            <h2 className="mt-4 text-xl font-bold text-[#1F2924]">
+              No Bookings Yet
             </h2>
 
-            <p className="mt-2 text-gray-500">
-              You haven't booked any studios yet.
+            <p className="mt-2 text-slate-500">
+              You have not booked any studio yet.
             </p>
 
             <Link
               href="/explore-studios"
-              className="mt-6 inline-block rounded-lg bg-[#1F2924] px-6 py-3 font-semibold text-white transition hover:bg-[#2C3832]"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
             >
               Explore Studios
+              <ArrowUpRight size={18} />
             </Link>
           </div>
         ) : (
-          <>
-            {/* Total Bookings */}
-            <div className="mb-6">
-              <p className="font-medium text-gray-600">
-                Total Bookings:{" "}
-                <span className="font-bold text-green-600">
-                  {bookings.length}
-                </span>
-              </p>
-            </div>
+          <div className="space-y-6">
+            {bookings.map((booking) => (
+              <div
+                key={booking._id}
+                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
 
-            {/* Booking Cards */}
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {bookings.map((booking) => (
-                <div
-                  key={booking._id}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                >
-                  {/* Image */}
-                  <div className="relative h-52 bg-gray-100">
-                    <img
-                      src={booking.image}
-                      alt={booking.name}
-                      className="h-full w-full object-cover"
-                    />
-
-                    <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                      <CheckCircle2 size={14} />
-                      {booking.status}
-                    </span>
+                  {/* Studio Image */}
+                  <div className="relative min-h-[220px] bg-slate-100">
+                    {booking.image ? (
+                      <Image
+                        src={booking.image}
+                        alt={booking.name}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 260px"
+                      />
+                    ) : (
+                      <div className="flex h-full min-h-[220px] items-center justify-center text-slate-400">
+                        No Image
+                      </div>
+                    )}
                   </div>
 
-                  {/* Information */}
-                  <div className="p-5">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-green-600">
-                      {booking.categorySlug?.replaceAll("-", " ")}
-                    </p>
+                  {/* Booking Information */}
+                  <div className="p-5 md:p-6">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-[#8C6D4F]">
+                          {booking.categorySlug?.replaceAll("-", " ")}
+                        </p>
 
-                    <h2 className="mb-2 text-xl font-bold text-gray-900">
-                      {booking.name}
-                    </h2>
+                        <h2 className="mt-1 text-xl font-bold text-[#1F2924]">
+                          {booking.name}
+                        </h2>
+                      </div>
 
-                    <p className="mb-4 line-clamp-2 text-sm text-gray-500">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-bold ${getStatusStyle(
+                          booking.status
+                        )}`}
+                      >
+                        {booking.status}
+                      </span>
+                    </div>
+
+                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-500">
                       {booking.description}
                     </p>
 
-                    {/* Details */}
-                    <div className="space-y-3 border-t border-gray-100 pt-4 text-sm text-gray-600">
-
+                    {/* Location & Capacity */}
+                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-600">
                       <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-green-600" />
+                        <MapPin size={16} />
                         <span>{booking.location}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4 text-green-600" />
-                        <span>
-                          Capacity: {booking.capacity} people
-                        </span>
+                        <Users size={16} />
+                        <span>{booking.capacity} People</span>
+                      </div>
+                    </div>
+
+                    {/* Booking Date & Time */}
+                    <div className="mt-5 grid grid-cols-1 gap-3 rounded-xl bg-[#F5F7F5] p-4 sm:grid-cols-3">
+                      <div>
+                        <p className="flex items-center gap-2 text-xs text-slate-500">
+                          <CalendarDays size={15} />
+                          Booking Date
+                        </p>
+
+                        <p className="mt-1 font-semibold text-[#1F2924]">
+                          {booking.bookingDate}
+                        </p>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-green-600" />
-                        <span>
-                          ৳{booking.pricePerHour} / hour
-                        </span>
+                      <div>
+                        <p className="flex items-center gap-2 text-xs text-slate-500">
+                          <Clock size={15} />
+                          Start Time
+                        </p>
+
+                        <p className="mt-1 font-semibold text-[#1F2924]">
+                          {booking.startTime}
+                        </p>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <CalendarDays className="h-4 w-4 text-green-600" />
-                        <span>
-                          Booked:{" "}
-                          {new Date(booking.bookedAt).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            }
-                          )}
-                        </span>
+                      <div>
+                        <p className="flex items-center gap-2 text-xs text-slate-500">
+                          <Clock size={15} />
+                          End Time
+                        </p>
+
+                        <p className="mt-1 font-semibold text-[#1F2924]">
+                          {booking.endTime}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Price Details */}
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                      <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                        <p className="text-slate-500">
+                          Duration:{" "}
+                          <span className="font-semibold text-[#1F2924]">
+                            {booking.totalHours} Hours
+                          </span>
+                        </p>
+
+                        <p className="text-slate-500">
+                          Per Hour:{" "}
+                          <span className="font-semibold text-[#1F2924]">
+                            ৳{booking.pricePerHour}
+                          </span>
+                        </p>
+                      </div>
+
+                      <div className="text-right">
+                        <p className="text-xs text-slate-500">
+                          Total Price
+                        </p>
+
+                        <p className="text-xl font-bold text-[#24352D]">
+                          ৳{booking.totalPrice?.toLocaleString("en-BD")}
+                        </p>
                       </div>
                     </div>
 
                     {/* Facilities */}
                     {booking.facilities?.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {booking.facilities.slice(0, 3).map(
-                          (facility, index) => (
-                            <span
-                              key={`${facility}-${index}`}
-                              className="rounded-full bg-green-50 px-3 py-1 text-xs text-green-700"
-                            >
-                              {facility}
-                            </span>
-                          )
-                        )}
+                        {booking.facilities.map((facility, index) => (
+                          <span
+                            key={`${facility}-${index}`}
+                            className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600"
+                          >
+                            {facility}
+                          </span>
+                        ))}
                       </div>
                     )}
 
-                    {/* View Studio */}
-                    <Link
-                      href={`/explore-studios/${booking.studioId}`}
-                      className="mt-5 block w-full rounded-lg bg-[#1F2924] py-3 text-center font-semibold text-white transition hover:bg-[#2C3832]"
-                    >
-                      View Studio
-                    </Link>
+                    {/* Actions */}
+                    <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-5">
+                      <Link
+                        href={`/explore-studios/${booking.studioId}`}
+                        className="inline-flex items-center gap-2 rounded-lg bg-[#24352D] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#344A3F]"
+                      >
+                        View Studio
+                        <ArrowUpRight size={16} />
+                      </Link>
+
+                      {booking.status === "Pending" && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedBookingId(booking._id)}
+                          disabled={cancellingId === booking._id}
+                          className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-50"
+                        >
+                          {cancellingId === booking._id ? (
+                            <Loader2
+                              size={16}
+                              className="animate-spin"
+                            />
+                          ) : (
+                            <XCircle size={16} />
+                          )}
+
+                          Cancel Booking
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </>
+              </div>
+            ))}
+          </div>
         )}
       </div>
-    </section>
+
+      {/* Custom Cancel Confirmation Modal */}
+      {selectedBookingId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50">
+              <AlertTriangle
+                size={28}
+                className="text-red-500"
+              />
+            </div>
+
+            <h2 className="mt-4 text-center text-xl font-bold text-[#1F2924]">
+              Cancel Your Booking?
+            </h2>
+
+            <p className="mt-2 text-center text-sm leading-6 text-slate-500">
+              Are you sure you want to cancel this studio reservation?
+              This action will update your booking status to Cancelled.
+            </p>
+
+            <div className="mt-6 flex gap-3">
+              <button
+                type="button"
+                onClick={() => setSelectedBookingId(null)}
+                disabled={!!cancellingId}
+                className="flex-1 rounded-lg border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:opacity-50"
+              >
+                Keep Booking
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCancelBooking}
+                disabled={!!cancellingId}
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
+              >
+                {cancellingId ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Cancelling...
+                  </>
+                ) : (
+                  "Yes, Cancel"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
