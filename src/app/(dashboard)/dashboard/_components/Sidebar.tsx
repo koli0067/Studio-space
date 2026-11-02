@@ -24,7 +24,7 @@ const menuItems = [
     icon: PlusCircle,
   },
   {
-    name: "My Listings",
+    name: " My Studio Listings",
     href: "/dashboard/my-listings",
     icon: ClipboardList,
   },

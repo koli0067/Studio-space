@@ -1,5 +1,8 @@
 "use client";
 
+import { Spinner } from "@/components/ui/spinner";
+import { useSession } from "@/lib/auth-client";
+import { Divide } from "lucide-react";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -27,6 +30,25 @@ const AddStudioForm = () => {
     facilities: [""],
     isAvailable: true,
   });
+
+const { data: session, isPending } = useSession();
+
+if (isPending) {
+  return (
+    <div className="flex justify-center items-center h-[85vh]">
+      <Spinner className="h-20 w-20" />
+    </div>
+  );
+}
+
+const user = session?.user;
+
+if (!user) {
+  return <p>Please login first.</p>;
+}
+
+console.log(user);
+  
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -84,7 +106,8 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       .getAll("facilities")
       .map((item) => item.toString().trim())
       .filter((item) => item !== ""),
-    isAvailable: formData.has("isAvailable"),
+      isAvailable: formData.has("isAvailable"),
+    
   };
 
   try {
@@ -95,7 +118,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(submittedData),
+        body: JSON.stringify({...submittedData, creatorEmail: user.email}),
       }
     );
 
@@ -332,7 +355,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   >
     Add Studio
   </button>
-</form>
+        </form>
       </div>
     </div>
   );
