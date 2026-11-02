@@ -1,9 +1,38 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# StudioSpace – Agent Guidelines
 
-## This is NOT the Next.js you know
+## Project Overview
+StudioSpace is a peer-to-peer creative workspace and photography studio booking platform built with Next.js and Express.js.
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+## Development Guidelines
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+- Follow the existing project folder structure.
+- Write clean, readable, and reusable code.
+- Use TypeScript for frontend development.
+- Use Tailwind CSS and shadcn/ui for UI components.
+- Maintain consistent colors, spacing, typography, and button styles.
+- Keep the design responsive across mobile, tablet, and desktop devices.
+- Use meaningful variable, function, and component names.
+- Avoid unnecessary code duplication.
+- Use React Hot Toast for success and error notifications.
+- Never use Lorem Ipsum or default browser alerts.
+- Protect private routes and maintain authentication state.
+- Handle loading states and errors properly.
+- Keep API endpoints and environment variables organized.
+- Never expose passwords, API keys, database credentials, or authentication secrets.
+- Do not modify existing functionality unnecessarily.
 
-<!-- END:nextjs-agent-rules -->
+## Design Theme
+
+Maintain the StudioSpace design identity:
+
+- Background: `#F5F1E8`
+- Dark Green: `#24352D`
+- Accent: `#C58B55`
+- Border: `#E8E3D9`
+
+## Important Instructions
+
+- Follow the assignment requirements when adding features.
+- Test functionality before considering a task complete.
+- Maintain consistent UI across all pages.
+- Do not claim a feature is completed unless it actually works.
