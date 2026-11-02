@@ -116,7 +116,7 @@ export default function Sidebar() {
         </p>
 
         <Link
-          href="/explore"
+          href="/explore-studios"
           className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#24352D] hover:text-[#C58B55]"
         >
           Explore Studios
