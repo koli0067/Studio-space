@@ -1,9 +1,69 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# StudioSpace – Creative Studio Booking Platform
 
-## This is NOT the Next.js you know
+**Live Website:** https://studio-space-six.vercel.app/
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+## About
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+StudioSpace is a peer-to-peer creative workspace booking platform where creators can discover, explore, and book professional studios. Studio owners can also list and manage their creative spaces.
 
-<!-- END:nextjs-agent-rules -->
+## Key Features
+
+- Explore photography studios and creative workspaces.
+- Browse studios by different categories.
+- View studio details, pricing, location, and facilities.
+- Add, update, and delete studio listings.
+- Book studios and manage reservations.
+- User authentication and protected routes.
+- Responsive design for all devices.
+
+## Technology Stack
+
+**Frontend:**
+- Next.js
+- React.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Lucide React
+- React Hot Toast
+
+**Backend:**
+- Node.js
+- Express.js
+- MongoDB
+- Better Auth
+- Nodemon
+
+## Local Setup
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/koli0067/Studio-space
+cd StudioSpace
+```
+
+**2. Setup Backend**
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+**3. Setup Frontend**
+
+Open another terminal:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+
+## Author
+
+**Koli Khatun**
+
+Frontend Developer | Aspiring Full-Stack Developer
