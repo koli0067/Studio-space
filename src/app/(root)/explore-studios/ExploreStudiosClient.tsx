@@ -2,6 +2,7 @@
 "use client";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Search,
   MapPin,
@@ -31,8 +32,10 @@ interface Props {
 }
 
 const ExploreStudiosClient = ({ studios }: Props) => {
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get("category") || "all";
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState(initialCategory);
   const [sort, setSort] = useState("default");
 
   const categories = useMemo(

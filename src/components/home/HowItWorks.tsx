@@ -12,33 +12,33 @@ const steps = [
     id: 1,
     number: "01",
     icon: Search,
-    title: "Discover Studios",
+    title: "Discover Spaces",
     description:
-      "Explore photography studios and find a space that matches your creative needs and photography style.",
+      "Explore photography studios and find a space that matches your creative needs.",
   },
   {
     id: 2,
     number: "02",
     icon: CalendarDays,
-    title: "Choose Your Time",
+    title: "Select Shoot Hours",
     description:
-      "Select your preferred studio, booking date, and available time slot for your photography session.",
+      "Choose your preferred studio, date, and available time slot.",
   },
   {
     id: 3,
     number: "03",
     icon: ClipboardCheck,
-    title: "Confirm Your Booking",
+    title: "Book Instantly",
     description:
-      "Review your booking details and submit your request to reserve your chosen photography studio.",
+      "Review details and confirm your booking instantly.",
   },
   {
     id: 4,
     number: "04",
     icon: Camera,
-    title: "Create & Capture",
+    title: "Create & Produce",
     description:
-      "Visit your booked studio, bring your creative ideas, and capture something amazing.",
+      "Visit your booked studio and bring your creative vision to life.",
   },
 ];
 

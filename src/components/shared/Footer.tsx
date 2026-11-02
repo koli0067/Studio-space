@@ -15,13 +15,22 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const quickLinks = [
   { name: "Home", href: "/" },
-  { name: "Explore Studios", href: "/explore" },
-  { name: "Add Studio", href: "/add-studio" },
-  { name: "My Listings", href: "/my-listings" },
-  { name: "My Bookings", href: "/my-bookings" },
+  { name: "Explore Studios", href: "/explore-studios" },
+  { name: "Add Studio", href: "/dashboard/add-studio" },
+  { name: "My Listings", href: "/dashboard/my-listings" },
+  { name: "My Bookings", href: "/dashboard/my-bookings" },
+];
+
+const popularCategories = [
+  { name: "Photo Studios", slug: "photo-studios" },
+  { name: "Sound Stages", slug: "sound-stages" },
+  { name: "Podcast Rooms", slug: "podcast-rooms" },
+  { name: "Music Suites", slug: "music-suites" },
+  { name: "Art Workshops", slug: "art-workshops" },
 ];
 
 const supportLinks = [
@@ -91,6 +100,16 @@ export default function Footer() {
                 className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition duration-300 hover:-translate-y-1 hover:bg-[#C58B55]"
               >
                 <FaLinkedinIn size={19} />
+              </a>
+
+              <a
+                href="https://x.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition duration-300 hover:-translate-y-1 hover:bg-[#C58B55]"
+              >
+                <FaXTwitter size={19} />
               </a>
             </div>
           </div>
@@ -178,12 +197,51 @@ export default function Footer() {
 
         </div>
 
+        {/* Newsletter & Popular Categories */}
+        <div className="mt-16 grid gap-10 border-t border-white/10 pt-10 sm:grid-cols-2">
+          <div>
+            <h3 className="mb-4 text-xl font-bold">Newsletter</h3>
+            <p className="mb-4 text-sm text-white/65">
+              Subscribe for updates and new studios.
+            </p>
+            <form className="flex gap-2">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none focus:border-[#C58B55]"
+              />
+              <button
+                type="submit"
+                className="rounded-lg bg-[#C58B55] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#b07a47]"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-xl font-bold">Popular Categories</h3>
+            <ul className="grid grid-cols-2 gap-2">
+              {popularCategories.map((cat) => (
+                <li key={cat.slug}>
+                  <Link
+                    href={`/studios?category=${cat.slug}`}
+                    className="text-sm text-white/65 transition hover:text-[#C58B55]"
+                  >
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         {/* Bottom Footer */}
         <div className="mt-16 border-t border-white/10 pt-8">
           <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
 
             <p className="text-sm text-white/55">
-              © {currentYear} StudioSpace. All rights reserved.
+              © {currentYear} StudioSpace. All rights reserved. Terms & Conditions apply.
             </p>
 
             <p className="text-sm font-medium text-white/55">

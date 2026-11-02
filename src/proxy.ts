@@ -15,10 +15,9 @@ export async function proxy(request: NextRequest) {
    if(!user){
       return NextResponse.redirect(new URL('/login', request.url))
    }
-//   return NextResponse.redirect(new URL('/', request.url))
 
 }
 
 export const config = {
-  matcher: ['/dashboard/:path'],
+  matcher: ['/dashboard/:path', '/explore-studios/:path'],
 }

@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
 import {
   Camera,
@@ -12,9 +13,17 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 
-const navLinks = [
+const baseNavLinks = [
   { name: "Home", href: "/" },
   { name: "Explore Studios", href: "/explore-studios" },
+  { name: "How It Works", href: "/how-it-works" },
+  { name: "About Us", href: "/about" },
+];
+
+const authNavLinks = [
+  { name: "Add Studio", href: "/dashboard/add-studio" },
+  { name: "My Listings", href: "/dashboard/my-listings" },
+  { name: "My Bookings", href: "/dashboard/my-bookings" },
 ];
 
 export default function Navbar() {
@@ -22,6 +31,8 @@ export default function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
 
   const { data: session } = useSession();
+  const pathname = usePathname();
+  const isActive = (href: string) => pathname === href;
 
   const handleLogout = async () => {
     setProfileOpen(false);
@@ -46,11 +57,13 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-7 xl:flex">
-          {navLinks.map((link) => (
+          {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="whitespace-nowrap text-base font-semibold text-[#24352D] transition-colors duration-200 hover:text-[#C58B55]"
+              className={`whitespace-nowrap text-base font-semibold transition-colors duration-200 hover:text-[#C58B55] ${
+                isActive(link.href) ? "text-[#C58B55]" : "text-[#24352D]"
+              }`}
             >
               {link.name}
             </Link>
@@ -118,6 +131,30 @@ export default function Navbar() {
                     Dashboard
                   </Link>
 
+                  <Link
+                    href="/dashboard/add-studio"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8]"
+                  >
+                    Add New Studio
+                  </Link>
+
+                  <Link
+                    href="/dashboard/my-listings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8]"
+                  >
+                    My Studio Listings
+                  </Link>
+
+                  <Link
+                    href="/dashboard/my-bookings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8]"
+                  >
+                    My Bookings
+                  </Link>
+
                   <button
                     type="button"
                     onClick={handleLogout}
@@ -164,7 +201,7 @@ export default function Navbar() {
         <div className="border-t border-[#E8E3D9] bg-[#F5F1E8] px-5 py-6 xl:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-5">
 
-            {navLinks.map((link) => (
+            {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
