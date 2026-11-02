@@ -60,7 +60,13 @@ cd client
 npm install
 npm run dev
 ```
+4. Run the Application
 
+Open your browser:
+
+http://localhost:3000
+
+Configure the required environment variables before running the application.
 
 ## Author
 
