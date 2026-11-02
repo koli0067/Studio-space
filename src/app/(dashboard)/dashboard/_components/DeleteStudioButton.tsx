@@ -61,7 +61,7 @@ const DeleteStudioButton = ({ data, onDelete }: DeleteStudioButtonProps) => {
           <Button
             type="button"
             variant="outline"
-            className="flex items-center justify-center gap-2 rounded-lg border border-red-500 py-5 font-semibold text-red-600 transition hover:bg-red-500 hover:text-white"
+            className="flex items-center justify-center gap-2 rounded-lg border border-red-500 font-semibold text-red-600 transition hover:bg-red-500 hover:text-white"
           >
             <Trash2 size={17} />
             Delete

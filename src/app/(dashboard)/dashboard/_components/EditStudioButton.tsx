@@ -149,7 +149,7 @@ const EditStudioButton = ({ data }: EditStudioButtonProps) => {
        <Button
         type="button"
         variant="outline"
-         className="flex items-center px-12 justify-center gap-2 rounded-lg border border-[#1F2924] py-5 font-semibold text-[#1F2924] transition hover:bg-[#1F2924] hover:text-white"
+         className="flex items-center justify-center gap-2 rounded-lg border border-[#1F2924] font-semibold text-[#1F2924] transition hover:bg-[#1F2924] hover:text-white"
         ><Pencil size={17} />
             Edit
        </Button>
