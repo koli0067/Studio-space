@@ -36,7 +36,7 @@ export default function LoginPage() {
   const handleGoogle = async () => {
     try {
       await signIn.social({ provider: "google", callbackURL: "/" });
-      window.location.href = "/";
+      // window.location.href = "/";
     } catch {
       toast.error("Google login failed");
     }

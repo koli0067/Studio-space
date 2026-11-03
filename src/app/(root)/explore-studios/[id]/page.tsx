@@ -10,6 +10,7 @@ import {
   Camera,
 } from "lucide-react";
 import BookingButton from "../_component/BookingButton";
+import { headers } from "next/headers";
 
 interface Studio {
   _id: string;
@@ -34,12 +35,15 @@ export default async function StudioDetailsPage({
 }) {
   const { id } = await params;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/${id}`,
-    {
-      cache: "no-store",
-    }
-  );
+const res = await fetch(
+  `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/${id}`,
+  {
+    cache: "no-store",
+    headers: {
+      authorization: "user logged in",
+    },
+  }
+);
 
   if (res.status === 404) {
     notFound();
@@ -260,10 +264,10 @@ export default async function StudioDetailsPage({
                     isAvailable={studio.isAvailable}
                     /> */}
                     <BookingButton
-  studioId={studio._id}
-  isAvailable={studio.isAvailable}
-  pricePerHour={studio.pricePerHour}
-/>
+                      studioId={studio._id}
+                      isAvailable={studio.isAvailable}
+                      pricePerHour={studio.pricePerHour}
+                    />
 
               </div>
             </div>

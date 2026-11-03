@@ -41,7 +41,7 @@ export default function RegisterPage() {
         return;
       }
       toast.success("Account created");
-      router.push("/login");
+      router.push("/");
     } catch {
       toast.error("Something went wrong");
     } finally {
@@ -52,7 +52,7 @@ export default function RegisterPage() {
   const handleGoogle = async () => {
     try {
       await signIn.social({ provider: "google", callbackURL: "/" });
-      window.location.href = "/";
+      // window.location.href = "/";
     } catch {
       toast.error("Google login failed");
     }
