@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { CalendarDays, Clock, Loader2, X } from "lucide-react";
+import GetTokenFromClient from "@/lib/GetTokenFromClient";
 
 interface BookingButtonProps {
   studioId: string;
@@ -51,6 +52,8 @@ export default function BookingButton({
   const handleBooking = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const token = await GetTokenFromClient()
+
     if (!session?.user?.email) {
       toast.error("Please login first!");
       return;
@@ -75,6 +78,7 @@ export default function BookingButton({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+             authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             studioId,

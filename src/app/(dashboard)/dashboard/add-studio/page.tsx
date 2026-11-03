@@ -1,7 +1,8 @@
 "use client";
 
 import { Spinner } from "@/components/ui/spinner";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
+import GetTokenFromClient from "@/lib/GetTokenFromClient";
 import { Divide } from "lucide-react";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -91,23 +92,17 @@ const handleFacilityChange = (index: number, value: string) => {
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
-  const form = e.currentTarget;
-  const formData = new FormData(form);
+ const token = await GetTokenFromClient()
 
-  // বেসিক ফিল্ডগুলো অবজেক্টে নেওয়া হলো
-  const data = Object.fromEntries(formData.entries());
-
-  // Data Formatting (facilities array + isAvailable boolean)
+  // রিঅ্যাক্ট স্টেটের ডাটা থেকে সাবমিট ডেটা তৈরি করা হচ্ছে
   const submittedData = {
-    ...data,
-    pricePerHour: Number(data.pricePerHour),
-    capacity: Number(data.capacity),
-    facilities: formData
-      .getAll("facilities")
-      .map((item) => item.toString().trim())
+    ...formData,
+    pricePerHour: Number(formData.pricePerHour),
+    capacity: Number(formData.capacity),
+    facilities: formData.facilities
+      .map((item) => item.trim())
       .filter((item) => item !== ""),
-      isAvailable: formData.has("isAvailable"),
-    
+    creatorEmail: user.email,
   };
 
   try {
@@ -117,8 +112,9 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({...submittedData, creatorEmail: user.email}),
+        body: JSON.stringify(submittedData),
       }
     );
 
@@ -127,7 +123,8 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 
     if (result.ok) {
       toast.success("Successfully added!");
-      form.reset();
+      
+      // form.reset() বাদ দিয়ে শুধু স্টেট রিসেট করা হলো
       setFormData({
         name: "",
         categorySlug: "",
@@ -140,7 +137,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         isAvailable: true,
       });
     } else {
-      toast.error("Failed to submit. Please try again!");
+      toast.error(resData.message || "Failed to submit. Please try again!");
     }
   } catch (error) {
     toast.error("Something went wrong!");

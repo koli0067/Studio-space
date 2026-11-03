@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import GetTokenFromClient from "@/lib/GetTokenFromClient";
 
 interface DeleteStudioButtonProps {
   data: {
@@ -27,32 +28,37 @@ interface DeleteStudioButtonProps {
 const DeleteStudioButton = ({ data, onDelete }: DeleteStudioButtonProps) => {
   const { _id } = data;
 
-  const handleButtonDelete = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/${_id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      const responseData = await res.json();
-
-      console.log("Server Response:", responseData);
-
-      if (res.ok) {
-        toast.success("Studio deleted successfully!");
-        onDelete?.(_id);
-      } else {
-        toast.error(
-          responseData.message || "Failed to delete studio!"
-        );
+ const handleButtonDelete = async () => {
+  const token = await GetTokenFromClient();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/${_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`, // এটি headers এর ভেতরে রাখতে হবে
+        },
       }
-    } catch (error) {
-      console.error("Delete Error:", error);
-      toast.error("Something went wrong!");
+    );
+
+    const responseData = await res.json();
+
+    console.log("Server Response:", responseData);
+
+    if (res.ok) {
+      toast.success("Studio deleted successfully!");
+      onDelete?.(_id);
+    } else {
+      toast.error(
+        responseData.message || "Failed to delete studio!"
+      );
     }
-  };
+  } catch (error) {
+    console.error("Delete Error:", error);
+    toast.error("Something went wrong!");
+  }
+};
 
   return (
     <AlertDialog>

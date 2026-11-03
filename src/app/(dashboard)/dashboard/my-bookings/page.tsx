@@ -16,6 +16,7 @@ import {
   XCircle,
   AlertTriangle,
 } from "lucide-react";
+import GetTokenFromClient from "@/lib/GetTokenFromClient";
 
 interface Booking {
   _id: string;
@@ -59,37 +60,47 @@ const MyBookingsPage = () => {
       return;
     }
 
-    const fetchBookings = async () => {
-      try {
-        setLoading(true);
+   const fetchBookings = async () => {
+    try {
+      setLoading(true);
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${encodeURIComponent(
-            userEmail
-          )}`,
-          { cache: "no-store" }
-        );
+      const token = await GetTokenFromClient(); // অথবা authClient.token() থেকে টোকেন নিতে পারেন
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch bookings");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${encodeURIComponent(
+          userEmail
+        )}`,
+        {
+          cache: "no-store",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { authorization: `Bearer ${token}` }),
+          },
         }
+      );
 
-        const data = await response.json();
-
-        setBookings(data);
-      } catch (error) {
-        console.error(error);
-        toast.error("Could not load your bookings!");
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to fetch bookings");
       }
-    };
+
+      const data = await response.json();
+
+      setBookings(data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Could not load your bookings!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
     fetchBookings();
   }, [userEmail, isPending]);
 
   // Cancel booking
   const handleCancelBooking = async () => {
+
+     const token = await GetTokenFromClient()
     if (!userEmail || !selectedBookingId || cancellingId) return;
 
     const bookingId = selectedBookingId;
@@ -103,6 +114,7 @@ const MyBookingsPage = () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             userEmail,

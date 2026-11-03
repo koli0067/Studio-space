@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import DeleteStudioButton from "../_components/DeleteStudioButton";
 import EditStudioButton from "../_components/EditStudioButton";
+import GetTokenFromClient from "@/lib/GetTokenFromClient";
 
 interface Studio {
   _id: string;
@@ -49,32 +50,39 @@ const MyListingss = () => {
       return;
     }
 
-    const fetchMyStudios = async () => {
-      try {
-        setLoading(true);
-        setError("");
+  const fetchMyStudios = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/my-studios/${encodeURIComponent(user.email)}`,
-          {
-            cache: "no-store",
-          }
-        );
+     
+      const token = await GetTokenFromClient(); 
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch your studios");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/my-studios/${encodeURIComponent(user.email)}`,
+        {
+          cache: "no-store",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { authorization: `Bearer ${token}` }),
+          },
         }
+      );
 
-        const data = await response.json();
-
-        setStudios(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error("My Listings Error:", error);
-        setError("Could not load your listings. Please try again.");
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to fetch your studios");
       }
-    };
+
+      const data = await response.json();
+
+      setStudios(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("My Listings Error:", error);
+      setError("Could not load your listings. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
     fetchMyStudios();
   }, [user?.email, isPending]);

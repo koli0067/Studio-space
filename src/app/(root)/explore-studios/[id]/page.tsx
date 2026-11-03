@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import BookingButton from "../_component/BookingButton";
 import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
+import GetTokenFromServer from "@/lib/GetTokenFromServer";
 
 interface Studio {
   _id: string;
@@ -35,12 +37,16 @@ export default async function StudioDetailsPage({
 }) {
   const { id } = await params;
 
+
+
+  const token = await GetTokenFromServer()
+  
 const res = await fetch(
   `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/${id}`,
   {
     cache: "no-store",
     headers: {
-      authorization: "user logged in",
+      authorization: `Bearer ${token}`,
     },
   }
 );
