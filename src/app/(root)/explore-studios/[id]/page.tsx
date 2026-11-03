@@ -264,11 +264,7 @@ const res = await fetch(
                 </div>
 
 
-                {/* Booking Button */}
-                {/* <BookingButton
-                    studioId={studio._id}
-                    isAvailable={studio.isAvailable}
-                    /> */}
+               
                     <BookingButton
                       studioId={studio._id}
                       isAvailable={studio.isAvailable}

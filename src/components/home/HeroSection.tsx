@@ -15,7 +15,7 @@ const slides = [
     cta2: { label: "Host Your Space", href: "/dashboard/add-studio" },
   },
   {
-    image: "/hero-studio.jpg",
+    image: "/hero-studio2.avif",
     headline: "Create. Shoot. Inspire.",
     subtext:
       "From portrait sessions to product shoots, find the perfect space to bring your vision to life.",
@@ -23,7 +23,7 @@ const slides = [
     cta2: { label: "Host Your Space", href: "/dashboard/add-studio" },
   },
   {
-    image: "/hero-studio.jpg",
+    image: "/hero-studio3.avif",
     headline: "Your Creative Space Awaits",
     subtext:
       "Easy online booking, professional spaces, and a community of creators.",

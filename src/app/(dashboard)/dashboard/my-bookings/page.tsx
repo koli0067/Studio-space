@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -51,6 +50,27 @@ const MyBookingsPage = () => {
 
   const userEmail = session?.user?.email;
 
+  // ঘণ্টা ও মিনিট ফরম্যাট করার হেলপার ফাংশন
+  const formatDuration = (start: string, end: string) => {
+    if (!start || !end) return "—";
+
+    const startMinutes =
+      Number(start.split(":")[0]) * 60 + Number(start.split(":")[1]);
+    const endMinutes =
+      Number(end.split(":")[0]) * 60 + Number(end.split(":")[1]);
+
+    const totalMinutes = endMinutes - startMinutes;
+    if (totalMinutes <= 0) return "—";
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    if (minutes > 0) {
+      return `${hours} hrs ${minutes} mins`;
+    }
+    return `${hours} hrs`;
+  };
+
   // Fetch bookings
   useEffect(() => {
     if (isPending) return;
@@ -60,47 +80,46 @@ const MyBookingsPage = () => {
       return;
     }
 
-   const fetchBookings = async () => {
-    try {
-      setLoading(true);
+    const fetchBookings = async () => {
+      try {
+        setLoading(true);
 
-      const token = await GetTokenFromClient(); // অথবা authClient.token() থেকে টোকেন নিতে পারেন
+        const token = await GetTokenFromClient();
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${encodeURIComponent(
-          userEmail
-        )}`,
-        {
-          cache: "no-store",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token && { authorization: `Bearer ${token}` }),
-          },
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${encodeURIComponent(
+            userEmail
+          )}`,
+          {
+            cache: "no-store",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token && { authorization: `Bearer ${token}` }),
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch bookings");
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch bookings");
+        const data = await response.json();
+
+        setBookings(data);
+      } catch (error) {
+        console.error(error);
+        toast.error("Could not load your bookings!");
+      } finally {
+        setLoading(false);
       }
-
-      const data = await response.json();
-
-      setBookings(data);
-    } catch (error) {
-      console.error(error);
-      toast.error("Could not load your bookings!");
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
     fetchBookings();
   }, [userEmail, isPending]);
 
   // Cancel booking
   const handleCancelBooking = async () => {
-
-     const token = await GetTokenFromClient()
+    const token = await GetTokenFromClient();
     if (!userEmail || !selectedBookingId || cancellingId) return;
 
     const bookingId = selectedBookingId;
@@ -129,7 +148,6 @@ const MyBookingsPage = () => {
         return;
       }
 
-      // Update booking status without removing the card
       setBookings((prev) =>
         prev.map((booking) =>
           booking._id === bookingId
@@ -153,16 +171,12 @@ const MyBookingsPage = () => {
     switch (status) {
       case "Pending":
         return "bg-amber-100 text-amber-700";
-
       case "Confirmed":
         return "bg-green-100 text-green-700";
-
       case "Completed":
         return "bg-blue-100 text-blue-700";
-
       case "Cancelled":
         return "bg-red-100 text-red-700";
-
       default:
         return "bg-gray-100 text-gray-700";
     }
@@ -183,7 +197,6 @@ const MyBookingsPage = () => {
           <h2 className="text-2xl font-bold text-[#1F2924]">
             Please Login First
           </h2>
-
           <p className="mt-2 text-slate-500">
             Login to see your studio bookings.
           </p>
@@ -197,17 +210,14 @@ const MyBookingsPage = () => {
       <Toaster position="top-right" />
 
       <div className="mx-auto max-w-6xl">
-
         {/* Header */}
         <div className="mb-8">
           <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-[#8C6D4F]">
             Your Reservations
           </p>
-
           <h1 className="text-3xl font-bold text-[#1F2924] md:text-4xl">
             My Bookings
           </h1>
-
           <p className="mt-2 text-slate-500">
             Manage your studio reservations and booking details.
           </p>
@@ -216,7 +226,6 @@ const MyBookingsPage = () => {
         {/* Booking Count */}
         <div className="mb-6 rounded-xl border border-slate-200 bg-white p-5">
           <p className="text-sm text-slate-500">Total Bookings</p>
-
           <p className="mt-1 text-3xl font-bold text-[#24352D]">
             {bookings.length}
           </p>
@@ -225,19 +234,13 @@ const MyBookingsPage = () => {
         {/* Empty State */}
         {bookings.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-            <CalendarDays
-              size={48}
-              className="mx-auto text-slate-300"
-            />
-
+            <CalendarDays size={48} className="mx-auto text-slate-300" />
             <h2 className="mt-4 text-xl font-bold text-[#1F2924]">
               No Bookings Yet
             </h2>
-
             <p className="mt-2 text-slate-500">
               You have not booked any studio yet.
             </p>
-
             <Link
               href="/explore-studios"
               className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
@@ -254,7 +257,6 @@ const MyBookingsPage = () => {
                 className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
               >
                 <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
-
                   {/* Studio Image */}
                   <div className="relative min-h-[220px] bg-slate-100">
                     {booking.image ? (
@@ -280,7 +282,6 @@ const MyBookingsPage = () => {
                         <p className="text-xs font-semibold uppercase tracking-wider text-[#8C6D4F]">
                           {booking.categorySlug?.replaceAll("-", " ")}
                         </p>
-
                         <h2 className="mt-1 text-xl font-bold text-[#1F2924]">
                           {booking.name}
                         </h2>
@@ -319,7 +320,6 @@ const MyBookingsPage = () => {
                           <CalendarDays size={15} />
                           Booking Date
                         </p>
-
                         <p className="mt-1 font-semibold text-[#1F2924]">
                           {booking.bookingDate}
                         </p>
@@ -330,7 +330,6 @@ const MyBookingsPage = () => {
                           <Clock size={15} />
                           Start Time
                         </p>
-
                         <p className="mt-1 font-semibold text-[#1F2924]">
                           {booking.startTime}
                         </p>
@@ -341,7 +340,6 @@ const MyBookingsPage = () => {
                           <Clock size={15} />
                           End Time
                         </p>
-
                         <p className="mt-1 font-semibold text-[#1F2924]">
                           {booking.endTime}
                         </p>
@@ -354,7 +352,7 @@ const MyBookingsPage = () => {
                         <p className="text-slate-500">
                           Duration:{" "}
                           <span className="font-semibold text-[#1F2924]">
-                            {booking.totalHours} Hours
+                            {formatDuration(booking.startTime, booking.endTime)}
                           </span>
                         </p>
 
@@ -367,10 +365,7 @@ const MyBookingsPage = () => {
                       </div>
 
                       <div className="text-right">
-                        <p className="text-xs text-slate-500">
-                          Total Price
-                        </p>
-
+                        <p className="text-xs text-slate-500">Total Price</p>
                         <p className="text-xl font-bold text-[#24352D]">
                           ৳{booking.totalPrice?.toLocaleString("en-BD")}
                         </p>
@@ -409,14 +404,10 @@ const MyBookingsPage = () => {
                           className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-50"
                         >
                           {cancellingId === booking._id ? (
-                            <Loader2
-                              size={16}
-                              className="animate-spin"
-                            />
+                            <Loader2 size={16} className="animate-spin" />
                           ) : (
                             <XCircle size={16} />
                           )}
-
                           Cancel Booking
                         </button>
                       )}
@@ -434,10 +425,7 @@ const MyBookingsPage = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50">
-              <AlertTriangle
-                size={28}
-                className="text-red-500"
-              />
+              <AlertTriangle size={28} className="text-red-500" />
             </div>
 
             <h2 className="mt-4 text-center text-xl font-bold text-[#1F2924]">
@@ -445,8 +433,8 @@ const MyBookingsPage = () => {
             </h2>
 
             <p className="mt-2 text-center text-sm leading-6 text-slate-500">
-              Are you sure you want to cancel this studio reservation?
-              This action will update your booking status to Cancelled.
+              Are you sure you want to cancel this studio reservation? This
+              action will update your booking status to Cancelled.
             </p>
 
             <div className="mt-6 flex gap-3">

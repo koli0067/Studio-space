@@ -49,10 +49,21 @@ export default function BookingButton({
   const totalHours = totalMinutes > 0 ? totalMinutes / 60 : 0;
   const totalPrice = totalHours * pricePerHour;
 
+  // ঘণ্টা ও মিনিট আলাদা করে ফরম্যাট করার লজিক
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  const formattedDuration =
+    totalMinutes > 0
+      ? minutes > 0
+        ? `${hours} hrs ${minutes} mins`
+        : `${hours} hrs`
+      : "—";
+
   const handleBooking = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const token = await GetTokenFromClient()
+    const token = await GetTokenFromClient();
 
     if (!session?.user?.email) {
       toast.error("Please login first!");
@@ -78,7 +89,7 @@ export default function BookingButton({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-             authorization: `Bearer ${token}`,
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             studioId,
@@ -246,9 +257,7 @@ export default function BookingButton({
 
                   <div className="flex justify-between text-slate-600">
                     <span>Total Hours</span>
-                    <span>
-                      {totalHours > 0 ? `${totalHours} hours` : "—"}
-                    </span>
+                    <span>{formattedDuration}</span>
                   </div>
 
                   <div className="my-2 border-t border-slate-200" />
