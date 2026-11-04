@@ -1,13 +1,14 @@
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 
 const categories = [
   {
     id: 1,
     title: "Photo Studios",
     slug: "photo-studios",
-    description: "Professional spaces for portrait, product, and commercial photography.",
+    description:
+      "Professional spaces for portrait, product, and commercial photography.",
     image: "/images/portrait.png",
     number: "01",
   },
@@ -55,9 +56,7 @@ export default function PopularCategories() {
           </p>
           <h2 className="text-3xl font-bold leading-tight text-[#24352D] sm:text-4xl lg:text-5xl">
             Find the Perfect Studio
-            <span className="block text-[#C58B55]">
-              for Every Shoot
-            </span>
+            <span className="block text-[#C58B55]">for Every Shoot</span>
           </h2>
         </div>
 
@@ -85,7 +84,7 @@ export default function PopularCategories() {
                 <h3 className="text-lg font-bold text-[#24352D]">
                   {category.title}
                 </h3>
-                
+
                 <p className="mt-3 min-h-[72px] text-sm leading-6 text-[#66736A]">
                   {category.description}
                 </p>

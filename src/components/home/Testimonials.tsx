@@ -1,5 +1,4 @@
-
-import { Star, Quote } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 
 const testimonials = [
   {
@@ -32,7 +31,6 @@ export default function Testimonials() {
   return (
     <section className="bg-[#F5F1E8] px-5 py-20 sm:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
-
         {/* Section Heading */}
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[3px] text-[#C58B55]">
@@ -41,15 +39,12 @@ export default function Testimonials() {
 
           <h2 className="text-3xl font-bold leading-tight text-[#24352D] sm:text-4xl lg:text-5xl">
             What Our Customers
-            <span className="block text-[#C58B55]">
-              Say About Us
-            </span>
+            <span className="block text-[#C58B55]">Say About Us</span>
           </h2>
 
           <p className="mt-5 text-base leading-8 text-[#66736A] sm:text-lg">
-            Discover how StudioSpace helps photography enthusiasts
-            and creative professionals find the perfect space for
-            their projects.
+            Discover how StudioSpace helps photography enthusiasts and creative
+            professionals find the perfect space for their projects.
           </p>
         </div>
 
@@ -63,10 +58,7 @@ export default function Testimonials() {
               {/* Quote Icon */}
               <div className="mb-6 flex items-center justify-between">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F5F1E8]">
-                  <Quote
-                    size={25}
-                    className="text-[#C58B55]"
-                  />
+                  <Quote size={25} className="text-[#C58B55]" />
                 </div>
 
                 {/* Star Rating */}
@@ -97,13 +89,9 @@ export default function Testimonials() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-[#24352D]">
-                    {item.name}
-                  </h3>
+                  <h3 className="font-bold text-[#24352D]">{item.name}</h3>
 
-                  <p className="mt-1 text-xs text-[#66736A]">
-                    {item.role}
-                  </p>
+                  <p className="mt-1 text-xs text-[#66736A]">{item.role}</p>
                 </div>
               </div>
             </div>
@@ -114,7 +102,6 @@ export default function Testimonials() {
         <p className="mt-8 text-center text-xs text-[#66736A]">
           Sample testimonials for demonstration purposes.
         </p>
-
       </div>
     </section>
   );

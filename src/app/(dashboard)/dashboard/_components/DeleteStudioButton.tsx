@@ -1,10 +1,7 @@
-
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import GetTokenFromClient from "@/lib/GetTokenFromClient";
 
 interface DeleteStudioButtonProps {
@@ -28,37 +26,35 @@ interface DeleteStudioButtonProps {
 const DeleteStudioButton = ({ data, onDelete }: DeleteStudioButtonProps) => {
   const { _id } = data;
 
- const handleButtonDelete = async () => {
-  const token = await GetTokenFromClient();
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/${_id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`, // এটি headers এর ভেতরে রাখতে হবে
+  const handleButtonDelete = async () => {
+    const token = await GetTokenFromClient();
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/${_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`, // এটি headers এর ভেতরে রাখতে হবে
+          },
         },
-      }
-    );
-
-    const responseData = await res.json();
-
-    console.log("Server Response:", responseData);
-
-    if (res.ok) {
-      toast.success("Studio deleted successfully!");
-      onDelete?.(_id);
-    } else {
-      toast.error(
-        responseData.message || "Failed to delete studio!"
       );
+
+      const responseData = await res.json();
+
+      console.log("Server Response:", responseData);
+
+      if (res.ok) {
+        toast.success("Studio deleted successfully!");
+        onDelete?.(_id);
+      } else {
+        toast.error(responseData.message || "Failed to delete studio!");
+      }
+    } catch (error) {
+      console.error("Delete Error:", error);
+      toast.error("Something went wrong!");
     }
-  } catch (error) {
-    console.error("Delete Error:", error);
-    toast.error("Something went wrong!");
-  }
-};
+  };
 
   return (
     <AlertDialog>
@@ -77,20 +73,16 @@ const DeleteStudioButton = ({ data, onDelete }: DeleteStudioButtonProps) => {
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Are you absolutely sure?
-          </AlertDialogTitle>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 
           <AlertDialogDescription>
-            Are you sure you want to delete this studio?
-            This action cannot be undone.
+            Are you sure you want to delete this studio? This action cannot be
+            undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel>
-            Cancel
-          </AlertDialogCancel>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
 
           <AlertDialogAction onClick={handleButtonDelete}>
             Continue

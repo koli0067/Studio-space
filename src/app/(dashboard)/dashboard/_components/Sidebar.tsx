@@ -1,16 +1,15 @@
-
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
-  PlusCircle,
-  ClipboardList,
+  ArrowUpRight,
   CalendarDays,
   Camera,
-  ArrowUpRight,
+  ClipboardList,
+  LayoutDashboard,
+  PlusCircle,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
@@ -40,7 +39,6 @@ export default function Sidebar() {
 
   return (
     <aside className="flex h-full min-h-screen w-full flex-col border-r border-[#E5E0D5] bg-[#F5F1E8] px-5 py-7">
-
       {/* Logo */}
       <Link href="/" className="mb-12 flex items-center gap-3 px-2">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#24352D] text-[#F5F1E8]">
@@ -72,8 +70,7 @@ export default function Sidebar() {
           const isActive =
             item.href === "/dashboard"
               ? pathname === "/dashboard"
-              : pathname === item.href ||
-                pathname.startsWith(`${item.href}/`);
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (
             <Link
@@ -88,14 +85,10 @@ export default function Sidebar() {
               <div className="flex items-center gap-3">
                 <Icon size={20} strokeWidth={1.8} />
 
-                <span className="text-sm font-semibold">
-                  {item.name}
-                </span>
+                <span className="text-sm font-semibold">{item.name}</span>
               </div>
 
-              {isActive && (
-                <ArrowUpRight size={17} />
-              )}
+              {isActive && <ArrowUpRight size={17} />}
             </Link>
           );
         })}
@@ -123,7 +116,6 @@ export default function Sidebar() {
           <ArrowUpRight size={16} />
         </Link>
       </div>
-
     </aside>
   );
 }

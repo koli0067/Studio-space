@@ -1,10 +1,9 @@
-
 import {
-  Search,
-  CalendarDays,
-  ClipboardCheck,
-  Camera,
   ArrowRight,
+  CalendarDays,
+  Camera,
+  ClipboardCheck,
+  Search,
 } from "lucide-react";
 
 const steps = [
@@ -21,16 +20,14 @@ const steps = [
     number: "02",
     icon: CalendarDays,
     title: "Select Shoot Hours",
-    description:
-      "Choose your preferred studio, date, and available time slot.",
+    description: "Choose your preferred studio, date, and available time slot.",
   },
   {
     id: 3,
     number: "03",
     icon: ClipboardCheck,
     title: "Book Instantly",
-    description:
-      "Review details and confirm your booking instantly.",
+    description: "Review details and confirm your booking instantly.",
   },
   {
     id: 4,
@@ -46,7 +43,6 @@ export default function HowItWorks() {
   return (
     <section className="bg-white px-5 py-20 sm:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
-
         {/* Section Heading */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[3px] text-[#C58B55]">
@@ -59,9 +55,8 @@ export default function HowItWorks() {
           </h2>
 
           <p className="mt-5 text-base leading-8 text-[#66736A] sm:text-lg">
-            Booking your perfect photography studio is simple.
-            Follow these four easy steps and get ready to bring
-            your creative vision to life.
+            Booking your perfect photography studio is simple. Follow these four
+            easy steps and get ready to bring your creative vision to life.
           </p>
         </div>
 
@@ -72,7 +67,6 @@ export default function HowItWorks() {
 
             return (
               <div key={step.id} className="relative text-center">
-
                 {/* Connector Arrow */}
                 {index !== steps.length - 1 && (
                   <div className="absolute left-[calc(50%+48px)] top-9 hidden w-[calc(100%-70px)] lg:block">
@@ -105,12 +99,10 @@ export default function HowItWorks() {
                 <p className="mx-auto mt-3 max-w-xs text-sm leading-7 text-[#66736A]">
                   {step.description}
                 </p>
-
               </div>
             );
           })}
         </div>
-
       </div>
     </section>
   );

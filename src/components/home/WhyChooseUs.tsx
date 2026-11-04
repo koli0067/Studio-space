@@ -1,10 +1,4 @@
-
-import {
-  Camera,
-  CalendarCheck,
-  Wallet,
-  ShieldCheck,
-} from "lucide-react";
+import { CalendarCheck, Camera, ShieldCheck, Wallet } from "lucide-react";
 
 const features = [
   {
@@ -45,7 +39,6 @@ export default function WhyChooseUs() {
   return (
     <section className="bg-[#F5F1E8] px-5 py-20 sm:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
-
         {/* Section Heading */}
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[3px] text-[#C58B55]">
@@ -54,15 +47,12 @@ export default function WhyChooseUs() {
 
           <h2 className="text-3xl font-bold leading-tight text-[#24352D] sm:text-4xl lg:text-5xl">
             Everything You Need
-            <span className="block text-[#C58B55]">
-              in One Creative Space
-            </span>
+            <span className="block text-[#C58B55]">in One Creative Space</span>
           </h2>
 
           <p className="mt-5 text-base leading-8 text-[#66736A] sm:text-lg">
-            We make finding and booking photography studios simple,
-            convenient, and stress-free so you can focus on creating
-            your best work.
+            We make finding and booking photography studios simple, convenient,
+            and stress-free so you can focus on creating your best work.
           </p>
         </div>
 
@@ -104,7 +94,6 @@ export default function WhyChooseUs() {
             );
           })}
         </div>
-
       </div>
     </section>
   );

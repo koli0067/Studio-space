@@ -1,4 +1,4 @@
-import { ShieldCheck, BadgeCheck, Wrench, Headphones } from "lucide-react";
+import { BadgeCheck, Headphones, ShieldCheck, Wrench } from "lucide-react";
 
 const assurances = [
   {
@@ -50,8 +50,12 @@ export default function HostGuarantee() {
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#24352D]">
                   <Icon size={26} className="text-[#C58B55]" />
                 </div>
-                <h3 className="text-lg font-bold text-[#24352D]">{item.title}</h3>
-                <p className="mt-2 text-sm text-[#66736A]">{item.description}</p>
+                <h3 className="text-lg font-bold text-[#24352D]">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm text-[#66736A]">
+                  {item.description}
+                </p>
               </div>
             );
           })}

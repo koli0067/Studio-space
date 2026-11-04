@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import Sidebar from "./_components/Sidebar";
 
 export default function DashboardLayout({
@@ -12,9 +12,7 @@ export default function DashboardLayout({
         <Sidebar />
       </aside>
 
-      <main className="min-w-0 flex-1">
-        {children}
-      </main>
+      <main className="min-w-0 flex-1">{children}</main>
     </div>
   );
 }

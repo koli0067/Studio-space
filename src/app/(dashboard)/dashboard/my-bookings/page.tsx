@@ -1,20 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useSession } from "@/lib/auth-client";
-import toast, { Toaster } from "react-hot-toast";
 import {
+  AlertTriangle,
+  ArrowUpRight,
   CalendarDays,
   Clock,
+  Loader2,
   MapPin,
   Users,
-  ArrowUpRight,
-  Loader2,
   XCircle,
-  AlertTriangle,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import EmptyState from "@/components/shared/EmptyState";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useSession } from "@/lib/auth-client";
 import GetTokenFromClient from "@/lib/GetTokenFromClient";
 
 interface Booking {
@@ -45,7 +47,7 @@ const MyBookingsPage = () => {
   const [loading, setLoading] = useState(true);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
+    null,
   );
 
   const userEmail = session?.user?.email;
@@ -88,7 +90,7 @@ const MyBookingsPage = () => {
 
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios/booking/${encodeURIComponent(
-            userEmail
+            userEmail,
           )}`,
           {
             cache: "no-store",
@@ -96,7 +98,7 @@ const MyBookingsPage = () => {
               "Content-Type": "application/json",
               ...(token && { authorization: `Bearer ${token}` }),
             },
-          }
+          },
         );
 
         if (!response.ok) {
@@ -138,7 +140,7 @@ const MyBookingsPage = () => {
           body: JSON.stringify({
             userEmail,
           }),
-        }
+        },
       );
 
       const result = await response.json();
@@ -152,8 +154,8 @@ const MyBookingsPage = () => {
         prev.map((booking) =>
           booking._id === bookingId
             ? { ...booking, status: "Cancelled" }
-            : booking
-        )
+            : booking,
+        ),
       );
 
       setSelectedBookingId(null);
@@ -167,25 +169,66 @@ const MyBookingsPage = () => {
     }
   };
 
-  const getStatusStyle = (status: Booking["status"]) => {
-    switch (status) {
-      case "Pending":
+  // const getStatusStyle = (status: Booking["status"]) => {
+  //   switch (status) {
+  //     case "Pending":
+  //       return "bg-amber-100 text-amber-700";
+  //     case "Confirmed":
+  //       return "bg-green-100 text-green-700";
+  //     case "Completed":
+  //       return "bg-blue-100 text-blue-700";
+  //     case "Cancelled":
+  //       return "bg-red-100 text-red-700";
+  //     default:
+  //       return "bg-gray-100 text-gray-700";
+  //   }
+  // };
+
+
+  const getStatusStyle = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case "pending":
         return "bg-amber-100 text-amber-700";
-      case "Confirmed":
+      case "confirmed":
         return "bg-green-100 text-green-700";
-      case "Completed":
+      case "completed":
         return "bg-blue-100 text-blue-700";
-      case "Cancelled":
+      case "cancelled":
         return "bg-red-100 text-red-700";
       default:
         return "bg-gray-100 text-gray-700";
     }
   };
 
+
   if (isPending || loading) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center">
-        <Loader2 className="h-10 w-10 animate-spin text-[#24352D]" />
+      <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
+        <div className="mx-auto max-w-6xl space-y-6">
+          <Skeleton className="h-4 w-36" />
+          <Skeleton className="h-10 w-56" />
+
+          <Skeleton className="h-24 w-full rounded-xl" />
+
+          {[1, 2].map((item) => (
+            <div
+              key={item}
+              className="grid grid-cols-1 gap-4 overflow-hidden rounded-2xl border border-[#E8E3D9] bg-white p-5 md:grid-cols-[260px_1fr]"
+            >
+              <Skeleton className="h-52 w-full rounded-xl md:h-[220px]" />
+              <div className="space-y-4">
+                <Skeleton className="h-6 w-2/3" />
+                <Skeleton className="h-4 w-full" />
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  <Skeleton className="h-16 w-full rounded-xl" />
+                  <Skeleton className="h-16 w-full rounded-xl" />
+                  <Skeleton className="h-16 w-full rounded-xl" />
+                </div>
+                <Skeleton className="h-10 w-48 rounded-lg" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -194,28 +237,32 @@ const MyBookingsPage = () => {
     return (
       <div className="flex min-h-[70vh] items-center justify-center px-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-[#1F2924]">
+          <h2 className="text-2xl font-bold text-[#24352D]">
             Please Login First
           </h2>
           <p className="mt-2 text-slate-500">
             Login to see your studio bookings.
           </p>
+          <Link
+            href="/login"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
+          >
+            Go to Login
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#FBFBFA] px-4 py-10 md:px-8">
-      <Toaster position="top-right" />
-
+    <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-8">
           <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-[#8C6D4F]">
             Your Reservations
           </p>
-          <h1 className="text-3xl font-bold text-[#1F2924] md:text-4xl">
+          <h1 className="text-3xl font-bold text-[#24352D] md:text-4xl">
             My Bookings
           </h1>
           <p className="mt-2 text-slate-500">
@@ -233,22 +280,19 @@ const MyBookingsPage = () => {
 
         {/* Empty State */}
         {bookings.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-            <CalendarDays size={48} className="mx-auto text-slate-300" />
-            <h2 className="mt-4 text-xl font-bold text-[#1F2924]">
-              No Bookings Yet
-            </h2>
-            <p className="mt-2 text-slate-500">
-              You have not booked any studio yet.
-            </p>
+          <EmptyState
+            icon={CalendarDays}
+            title="No Bookings Yet"
+            description="You have not booked any studio yet. Explore our creative spaces and book your first session."
+          >
             <Link
-              href="/explore-studios"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
+              href="/studios"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
             >
               Explore Studios
               <ArrowUpRight size={18} />
             </Link>
-          </div>
+          </EmptyState>
         ) : (
           <div className="space-y-6">
             {bookings.map((booking) => (
@@ -282,14 +326,14 @@ const MyBookingsPage = () => {
                         <p className="text-xs font-semibold uppercase tracking-wider text-[#8C6D4F]">
                           {booking.categorySlug?.replaceAll("-", " ")}
                         </p>
-                        <h2 className="mt-1 text-xl font-bold text-[#1F2924]">
+                        <h2 className="mt-1 text-xl font-bold text-[#24352D]">
                           {booking.name}
                         </h2>
                       </div>
 
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-bold ${getStatusStyle(
-                          booking.status
+                          booking.status,
                         )}`}
                       >
                         {booking.status}
@@ -320,7 +364,7 @@ const MyBookingsPage = () => {
                           <CalendarDays size={15} />
                           Booking Date
                         </p>
-                        <p className="mt-1 font-semibold text-[#1F2924]">
+                        <p className="mt-1 font-semibold text-[#24352D]">
                           {booking.bookingDate}
                         </p>
                       </div>
@@ -330,7 +374,7 @@ const MyBookingsPage = () => {
                           <Clock size={15} />
                           Start Time
                         </p>
-                        <p className="mt-1 font-semibold text-[#1F2924]">
+                        <p className="mt-1 font-semibold text-[#24352D]">
                           {booking.startTime}
                         </p>
                       </div>
@@ -340,7 +384,7 @@ const MyBookingsPage = () => {
                           <Clock size={15} />
                           End Time
                         </p>
-                        <p className="mt-1 font-semibold text-[#1F2924]">
+                        <p className="mt-1 font-semibold text-[#24352D]">
                           {booking.endTime}
                         </p>
                       </div>
@@ -351,15 +395,15 @@ const MyBookingsPage = () => {
                       <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                         <p className="text-slate-500">
                           Duration:{" "}
-                          <span className="font-semibold text-[#1F2924]">
+                          <span className="font-semibold text-[#24352D]">
                             {formatDuration(booking.startTime, booking.endTime)}
                           </span>
                         </p>
 
                         <p className="text-slate-500">
                           Per Hour:{" "}
-                          <span className="font-semibold text-[#1F2924]">
-                            ৳{booking.pricePerHour}
+                          <span className="font-semibold text-[#24352D]">
+                            ${booking.pricePerHour}
                           </span>
                         </p>
                       </div>
@@ -367,7 +411,7 @@ const MyBookingsPage = () => {
                       <div className="text-right">
                         <p className="text-xs text-slate-500">Total Price</p>
                         <p className="text-xl font-bold text-[#24352D]">
-                          ৳{booking.totalPrice?.toLocaleString("en-BD")}
+                          ${booking.totalPrice?.toLocaleString("en-US")}
                         </p>
                       </div>
                     </div>
@@ -375,9 +419,9 @@ const MyBookingsPage = () => {
                     {/* Facilities */}
                     {booking.facilities?.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {booking.facilities.map((facility, index) => (
+                        {booking.facilities.map((facility) => (
                           <span
-                            key={`${facility}-${index}`}
+                            key={facility}
                             className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600"
                           >
                             {facility}
@@ -396,22 +440,22 @@ const MyBookingsPage = () => {
                         <ArrowUpRight size={16} />
                       </Link>
 
-                      {booking.status === "Pending" && (
-                        <button
-                          type="button"
-                          onClick={() => setSelectedBookingId(booking._id)}
-                          disabled={cancellingId === booking._id}
-                          className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-50"
-                        >
-                          {cancellingId === booking._id ? (
-                            <Loader2 size={16} className="animate-spin" />
-                          ) : (
-                            <XCircle size={16} />
-                          )}
-                          Cancel Booking
-                        </button>
-                      )}
-                    </div>
+                     {booking.status?.toLowerCase() === "pending" && (
+                          <button
+                            type="button"
+                            onClick={() => setSelectedBookingId(booking._id)}
+                            disabled={cancellingId === booking._id}
+                            className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-50"
+                          >
+                            {cancellingId === booking._id ? (
+                              <Loader2 size={16} className="animate-spin" />
+                            ) : (
+                              <XCircle size={16} />
+                            )}
+                            Cancel Booking
+                          </button>
+                        )}
+                       </div>
                   </div>
                 </div>
               </div>
@@ -428,7 +472,7 @@ const MyBookingsPage = () => {
               <AlertTriangle size={28} className="text-red-500" />
             </div>
 
-            <h2 className="mt-4 text-center text-xl font-bold text-[#1F2924]">
+            <h2 className="mt-4 text-center text-xl font-bold text-[#24352D]">
               Cancel Your Booking?
             </h2>
 

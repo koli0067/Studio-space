@@ -1,17 +1,10 @@
-
 "use client";
 
+import { Camera, ChevronDown, LayoutDashboard, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { useSession, signOut } from "@/lib/auth-client";
-import {
-  Camera,
-  Menu,
-  X,
-  ChevronDown,
-  LayoutDashboard,
-} from "lucide-react";
+import { useState } from "react";
+import { signOut, useSession } from "@/lib/auth-client";
 
 const baseNavLinks = [
   { name: "Home", href: "/" },
@@ -43,7 +36,6 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#E8E3D9] bg-[#F5F1E8]/95 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#24352D] text-white">
@@ -57,24 +49,25 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-7 xl:flex">
-          {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`whitespace-nowrap text-base font-semibold transition-colors duration-200 hover:text-[#C58B55] ${
-                isActive(link.href) ? "text-[#C58B55]" : "text-[#24352D]"
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
+          {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map(
+            (link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`whitespace-nowrap text-base font-semibold transition-colors duration-200 hover:text-[#C58B55] ${
+                  isActive(link.href) ? "text-[#C58B55]" : "text-[#24352D]"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ),
+          )}
         </div>
 
         {/* Desktop Authentication */}
         <div className="hidden shrink-0 items-center gap-4 xl:flex">
           {session ? (
             <div className="relative">
-
               {/* Profile Button */}
               <button
                 type="button"
@@ -83,6 +76,7 @@ export default function Navbar() {
                 aria-expanded={profileOpen}
               >
                 {session.user?.image ? (
+                  /* biome-ignore lint/performance/noImgElement: remote Google profile picture */
                   <img
                     src={session.user.image}
                     alt={session.user.name || "Profile"}
@@ -90,9 +84,7 @@ export default function Navbar() {
                   />
                 ) : (
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#24352D] font-semibold text-white">
-                    {(session.user?.name || "U")
-                      .charAt(0)
-                      .toUpperCase()}
+                    {(session.user?.name || "U").charAt(0).toUpperCase()}
                   </div>
                 )}
 
@@ -111,7 +103,6 @@ export default function Navbar() {
               {/* Profile Dropdown */}
               {profileOpen && (
                 <div className="absolute right-0 z-50 mt-3 w-60 overflow-hidden rounded-xl border border-[#E8E3D9] bg-white shadow-xl">
-
                   <div className="border-b border-[#E8E3D9] px-4 py-3">
                     <p className="font-semibold text-[#24352D]">
                       {session.user?.name || "User"}
@@ -200,25 +191,26 @@ export default function Navbar() {
       {isOpen && (
         <div className="border-t border-[#E8E3D9] bg-[#F5F1E8] px-5 py-6 xl:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-5">
-
-            {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="text-base font-semibold text-[#24352D] transition hover:text-[#C58B55]"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map(
+              (link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="text-base font-semibold text-[#24352D] transition hover:text-[#C58B55]"
+                >
+                  {link.name}
+                </Link>
+              ),
+            )}
 
             <div className="flex flex-col gap-3 border-t border-[#E8E3D9] pt-5">
-
               {session ? (
                 <>
                   {/* Mobile User Profile */}
                   <div className="flex items-center gap-3 pb-3">
                     {session.user?.image ? (
+                      /* biome-ignore lint/performance/noImgElement: remote Google profile picture */
                       <img
                         src={session.user.image}
                         alt={session.user.name || "Profile"}
@@ -226,9 +218,7 @@ export default function Navbar() {
                       />
                     ) : (
                       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#24352D] font-semibold text-white">
-                        {(session.user?.name || "U")
-                          .charAt(0)
-                          .toUpperCase()}
+                        {(session.user?.name || "U").charAt(0).toUpperCase()}
                       </div>
                     )}
 

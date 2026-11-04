@@ -1,20 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { ArrowRight, Camera, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
-import {
-  Camera,
-  MapPin,
-  Mail,
-  Phone,
-  ArrowRight,
-} from "lucide-react";
+import { useEffect, useState } from "react";
 
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const quickLinks = [
@@ -50,9 +40,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#1B2922] text-white">
       <div className="mx-auto max-w-7xl py-16">
-
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
-
           {/* Brand Information */}
           <div>
             <Link href="/" className="mb-6 inline-flex items-center gap-3">
@@ -66,8 +54,8 @@ export default function Footer() {
             </Link>
 
             <p className="max-w-xs text-base leading-8 text-white/65">
-              Your creative journey starts here. Discover and book
-              professional photography studios for every creative vision.
+              Your creative journey starts here. Discover and book professional
+              photography studios for every creative vision.
             </p>
 
             {/* Social Links */}
@@ -116,9 +104,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="mb-7 text-xl font-bold">
-              Quick Links
-            </h3>
+            <h3 className="mb-7 text-xl font-bold">Quick Links</h3>
 
             <ul className="space-y-5">
               {quickLinks.map((link) => (
@@ -137,9 +123,7 @@ export default function Footer() {
 
           {/* Support */}
           <div>
-            <h3 className="mb-7 text-xl font-bold">
-              Support
-            </h3>
+            <h3 className="mb-7 text-xl font-bold">Support</h3>
 
             <ul className="space-y-5">
               {supportLinks.map((link) => (
@@ -158,43 +142,31 @@ export default function Footer() {
 
           {/* Contact Information */}
           <div>
-            <h3 className="mb-7 text-xl font-bold">
-              Get In Touch
-            </h3>
+            <h3 className="mb-7 text-xl font-bold">Get In Touch</h3>
 
             <ul className="space-y-6">
               <li className="flex items-start gap-3">
-                <Mail
-                  size={21}
-                  className="mt-1 shrink-0 text-[#C58B55]"
-                />
+                <Mail size={21} className="mt-1 shrink-0 text-[#C58B55]" />
                 <span className="text-base leading-7 text-white/65">
                   support@studiospace.com
                 </span>
               </li>
 
               <li className="flex items-start gap-3">
-                <Phone
-                  size={21}
-                  className="mt-1 shrink-0 text-[#C58B55]"
-                />
+                <Phone size={21} className="mt-1 shrink-0 text-[#C58B55]" />
                 <span className="text-base leading-7 text-white/65">
                   +880 1XXX-XXXXXX
                 </span>
               </li>
 
               <li className="flex items-start gap-3">
-                <MapPin
-                  size={21}
-                  className="mt-1 shrink-0 text-[#C58B55]"
-                />
+                <MapPin size={21} className="mt-1 shrink-0 text-[#C58B55]" />
                 <span className="text-base leading-7 text-white/65">
                   Bangladesh
                 </span>
               </li>
             </ul>
           </div>
-
         </div>
 
         {/* Newsletter & Popular Categories */}
@@ -239,18 +211,16 @@ export default function Footer() {
         {/* Bottom Footer */}
         <div className="mt-16 border-t border-white/10 pt-8">
           <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
-
             <p className="text-sm text-white/55">
-              © {currentYear} StudioSpace. All rights reserved. Terms & Conditions apply.
+              © {currentYear} StudioSpace. All rights reserved. Terms &
+              Conditions apply.
             </p>
 
             <p className="text-sm font-medium text-white/55">
               Made for Creative Minds
             </p>
-
           </div>
         </div>
-
       </div>
     </footer>
   );

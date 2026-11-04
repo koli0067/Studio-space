@@ -1,22 +1,21 @@
-
 "use client";
 
-import { Spinner } from "@/components/ui/spinner";
-import { useSession } from "@/lib/auth-client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
 import {
-  MapPin,
-  Users,
-  Clock,
   CheckCircle2,
-  XCircle,
+  Clock,
+  FolderOpen,
+  LogIn,
+  MapPin,
   Pencil,
-  Trash2,
+  Users,
+  XCircle,
 } from "lucide-react";
-import DeleteStudioButton from "../_components/DeleteStudioButton";
-import EditStudioButton from "../_components/EditStudioButton";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import EmptyState from "@/components/shared/EmptyState";
+import { useSession } from "@/lib/auth-client";
 import GetTokenFromClient from "@/lib/GetTokenFromClient";
+import DeleteStudioButton from "../_components/DeleteStudioButton";
 
 interface Studio {
   _id: string;
@@ -50,47 +49,49 @@ const MyListingss = () => {
       return;
     }
 
-  const fetchMyStudios = async () => {
-    try {
-      setLoading(true);
-      setError("");
+    const fetchMyStudios = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-     
-      const token = await GetTokenFromClient(); 
+        const token = await GetTokenFromClient();
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/my-studios/${encodeURIComponent(user.email)}`,
-        {
-          cache: "no-store",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token && { authorization: `Bearer ${token}` }),
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/my-studios/${encodeURIComponent(user.email)}`,
+          {
+            cache: "no-store",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token && { authorization: `Bearer ${token}` }),
+            },
           },
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch your studios");
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch your studios");
+        const data = await response.json();
+
+        setStudios(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("My Listings Error:", err);
+        setError("Could not load your listings. Please try again.");
+      } finally {
+        setLoading(false);
       }
-
-      const data = await response.json();
-
-      setStudios(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error("My Listings Error:", error);
-      setError("Could not load your listings. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
     fetchMyStudios();
   }, [user?.email, isPending]);
 
+  // সাধারণ Loading... টেক্সট দেখানোর অংশ
   if (isPending || loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <Spinner className="h-10 w-10" />
+      <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8]">
+        <p className="text-xl font-semibold text-[#24352D] animate-pulse">
+          Loading...
+        </p>
       </div>
     );
   }
@@ -98,68 +99,66 @@ const MyListingss = () => {
   if (!user) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-lg font-medium text-gray-600">
-          Please login to see your listings.
-        </p>
+        <EmptyState
+          icon={LogIn}
+          title="Please Login First"
+          description="Login to see the studios you have listed on StudioSpace."
+        >
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
+          >
+            Go to Login
+          </Link>
+        </EmptyState>
       </div>
     );
   }
 
   if (error) {
-    return (
-      <div className="py-20 text-center text-red-500">
-        {error}
-      </div>
-    );
+    return <div className="py-20 text-center text-red-500">{error}</div>;
   }
 
   return (
-    <section className="min-h-screen bg-gray-50 px-4 py-10 md:px-8">
+    <section className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
       <div className="mx-auto max-w-7xl">
-
         {/* Header */}
         <div className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-green-600">
+          <p className="mb-2 text-sm font-bold uppercase tracking-[3px] text-[#C58B55]">
             Dashboard
           </p>
 
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#24352D] md:text-4xl">
             My Listings
           </h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-slate-500">
             Manage the studios you have listed.
           </p>
 
-          <p className="mt-1 text-sm text-gray-400">
-            {user.email}
-          </p>
+          <p className="mt-1 text-sm text-slate-400">{user.email}</p>
         </div>
 
         {/* Studio Cards */}
         {studios.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-20 text-center">
-            <h2 className="text-xl font-semibold text-gray-800">
-              No Listings Found
-            </h2>
-
-            <p className="mt-2 text-gray-500">
-              You haven't added any studios yet.
-            </p>
-
+          <EmptyState
+            icon={FolderOpen}
+            title="No Listings Found"
+            description="You haven't added any studios yet. List your first studio and start receiving bookings."
+          >
             <Link
-              href="/dashboard/add-studio"
-              className="mt-6 inline-block rounded-lg bg-[#1F2924] px-6 py-3 font-semibold text-white transition hover:bg-[#2C3832]"
+              href="/add-studio"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
             >
               Add Your First Studio
             </Link>
-          </div>
+          </EmptyState>
         ) : (
           <>
             <div className="mb-6">
-              <p className="font-medium text-gray-600">
+              <p className="font-medium text-slate-600">
                 Total Listings:{" "}
-                <span className="font-bold text-green-600">
+                <span className="font-bold text-[#C58B55]">
                   {studios.length}
                 </span>
               </p>
@@ -169,10 +168,10 @@ const MyListingss = () => {
               {studios.map((studio) => (
                 <div
                   key={studio._id}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                  className="flex flex-col overflow-hidden rounded-2xl border border-[#E8E3D9] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                 >
                   {/* Image */}
-                  <div className="relative h-52 bg-gray-100">
+                  <div className="relative h-52 bg-slate-100">
                     <img
                       src={studio.image}
                       alt={studio.name}
@@ -191,43 +190,39 @@ const MyListingss = () => {
                   </div>
 
                   {/* Studio Information */}
-                  <div className="p-5">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-green-600">
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#C58B55]">
                       {studio.categorySlug?.replaceAll("-", " ")}
                     </p>
 
-                    <h2 className="mb-2 text-xl font-bold text-gray-900">
+                    <h2 className="mb-2 text-xl font-bold text-[#24352D]">
                       {studio.name}
                     </h2>
 
-                    <p className="mb-4 line-clamp-2 text-sm text-gray-500">
+                    <p className="mb-4 line-clamp-2 text-sm text-slate-500">
                       {studio.description}
                     </p>
 
                     {/* Details */}
-                    <div className="space-y-3 border-t border-gray-100 pt-4 text-sm text-gray-600">
+                    <div className="space-y-3 border-t border-[#E8E3D9] pt-4 text-sm text-slate-600">
                       <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-green-600" />
+                        <MapPin className="h-4 w-4 text-[#C58B55]" />
                         <span>{studio.location}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4 text-green-600" />
-                        <span>
-                          Capacity: {studio.capacity} people
-                        </span>
+                        <Users className="h-4 w-4 text-[#C58B55]" />
+                        <span>Capacity: {studio.capacity} people</span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-green-600" />
-                        <span>
-                          ৳{studio.pricePerHour} / hour
-                        </span>
+                        <Clock className="h-4 w-4 text-[#C58B55]" />
+                        <span>${studio.pricePerHour} / hour</span>
                       </div>
 
                       <div className="flex items-center gap-2">
                         {studio.isAvailable ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <CheckCircle2 className="h-4 w-4 text-[#C58B55]" />
                         ) : (
                           <XCircle className="h-4 w-4 text-red-500" />
                         )}
@@ -243,10 +238,10 @@ const MyListingss = () => {
                     {/* Facilities */}
                     {studio.facilities?.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {studio.facilities.slice(0, 3).map((facility, index) => (
+                        {studio.facilities.slice(0, 3).map((facility) => (
                           <span
-                            key={`${facility}-${index}`}
-                            className="rounded-full bg-green-50 px-3 py-1 text-xs text-green-700"
+                            key={facility}
+                            className="rounded-full bg-[#F5F1E8] px-3 py-1 text-xs text-[#24352D]"
                           >
                             {facility}
                           </span>
@@ -254,29 +249,35 @@ const MyListingss = () => {
                       </div>
                     )}
 
-                  {/* Edit & Delete Buttons */}
+                    {/* Update & Delete Buttons */}
+                    <div className="mt-auto pt-5">
+                      <div className="grid grid-cols-2 gap-3">
+                        <Link
+                          href={`/studios/edit/${studio._id}`}
+                          className="flex items-center justify-center gap-2 rounded-lg border border-[#24352D] px-5 py-2.5 text-sm font-semibold text-[#24352D] transition hover:bg-[#24352D] hover:text-white"
+                        >
+                          <Pencil size={16} />
+                          Update
+                        </Link>
 
-                  <div className="mt-3 grid grid-cols-2 gap-3">
-                   
-                    <EditStudioButton data={studio}></EditStudioButton>
-                   
-                    <DeleteStudioButton
-                      data={studio}
-                      onDelete={(id) =>
-                        setStudios((prev) => prev.filter((s) => s._id !== id))
-                      }
-                    ></DeleteStudioButton>
+                        <DeleteStudioButton
+                          data={studio}
+                          onDelete={(id) =>
+                            setStudios((prev) =>
+                              prev.filter((s) => s._id !== id),
+                            )
+                          }
+                        />
+                      </div>
 
-                  </div>
-
-                    {/* View Details Button */}
-                    <Link
-                      href={`/explore-studios/${studio._id}`}
-                      className="mt-5 block w-full rounded-lg bg-[#1F2924] py-3 text-center font-semibold text-white transition hover:bg-[#2C3832]"
-                    >
-                      View Details
-                    </Link>
-
+                      {/* View Details Button */}
+                      <Link
+                        href={`/studios/${studio._id}`}
+                        className="mt-3 block w-full rounded-lg bg-[#24352D] py-3 text-center font-semibold text-white transition hover:bg-[#344A3F]"
+                      >
+                        View Details
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))}

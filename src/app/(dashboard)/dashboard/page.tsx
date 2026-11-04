@@ -1,18 +1,16 @@
-
-import Link from "next/link";
 import {
   ArrowUpRight,
-  Camera,
   CalendarDays,
+  Camera,
   ClipboardList,
   Plus,
   Sparkles,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#faf9f6] p-5 md:p-8">
-
       {/* Welcome Banner */}
       <section className="relative mb-8 overflow-hidden rounded-3xl bg-[#243b32] p-7 text-white md:p-10">
         <div className="relative z-10 max-w-xl">
@@ -27,8 +25,8 @@ export default function DashboardPage() {
           </h1>
 
           <p className="mt-4 max-w-md text-sm leading-7 text-gray-300">
-            Your creative journey starts here. Manage your studios,
-            explore opportunities and keep your bookings organized.
+            Your creative journey starts here. Manage your studios, explore
+            opportunities and keep your bookings organized.
           </p>
 
           <Link
@@ -65,7 +63,6 @@ export default function DashboardPage() {
 
       {/* Navigation Cards */}
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-
         <Link
           href="/dashboard/add-studio"
           className="group rounded-2xl border border-[#e9e5da] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#a9b9a8] hover:shadow-lg"
@@ -74,17 +71,19 @@ export default function DashboardPage() {
             <Plus size={27} />
           </div>
 
-          <h3 className="text-lg font-bold text-[#243b32]">
-            Add New Studio
-          </h3>
+          <h3 className="text-lg font-bold text-[#243b32]">Add New Studio</h3>
 
           <p className="mt-2 text-sm leading-6 text-gray-500">
-            Share your creative space with creators and add a new studio listing.
+            Share your creative space with creators and add a new studio
+            listing.
           </p>
 
           <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58]">
             Get Started
-            <ArrowUpRight size={19} className="transition group-hover:translate-x-1" />
+            <ArrowUpRight
+              size={19}
+              className="transition group-hover:translate-x-1"
+            />
           </div>
         </Link>
 
@@ -106,7 +105,10 @@ export default function DashboardPage() {
 
           <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58]">
             Manage Listings
-            <ArrowUpRight size={19} className="transition group-hover:translate-x-1" />
+            <ArrowUpRight
+              size={19}
+              className="transition group-hover:translate-x-1"
+            />
           </div>
         </Link>
 
@@ -118,9 +120,7 @@ export default function DashboardPage() {
             <CalendarDays size={27} />
           </div>
 
-          <h3 className="text-lg font-bold text-[#243b32]">
-            My Bookings
-          </h3>
+          <h3 className="text-lg font-bold text-[#243b32]">My Bookings</h3>
 
           <p className="mt-2 text-sm leading-6 text-gray-500">
             Keep track of your studio reservations and booking status.
@@ -128,10 +128,12 @@ export default function DashboardPage() {
 
           <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58]">
             View Bookings
-            <ArrowUpRight size={19} className="transition group-hover:translate-x-1" />
+            <ArrowUpRight
+              size={19}
+              className="transition group-hover:translate-x-1"
+            />
           </div>
         </Link>
-
       </div>
 
       {/* Bottom Message */}
@@ -155,7 +157,6 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
-
     </div>
   );
 }

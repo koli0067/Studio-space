@@ -1,12 +1,15 @@
 import { redirect } from "next/navigation";
 
-export default function StudiosPage({
+export default async function StudiosPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: Promise<{ category?: string }>;
 }) {
-  const qs = searchParams?.category
-    ? `?category=${encodeURIComponent(searchParams.category)}`
-    : "";
-  redirect(`/explore-studios${qs}`);
+  const { category } = await searchParams;
+
+  redirect(
+    category
+      ? `/explore-studios?category=${encodeURIComponent(category)}`
+      : "/explore-studios",
+  );
 }

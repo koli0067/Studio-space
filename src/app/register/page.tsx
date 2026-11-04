@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { signUp, signIn, authClient } from "@/lib/auth-client";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn, signUp } from "@/lib/auth-client";
 
-const passwordValid = (p: string) =>
-  /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(p);
+const passwordValid = (p: string) => /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(p);
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -24,7 +23,7 @@ export default function RegisterPage() {
     e.preventDefault();
     if (!passwordValid(password)) {
       toast.error(
-        "Password must be at least 6 characters with one uppercase and one lowercase letter"
+        "Password must be at least 6 characters with one uppercase and one lowercase letter",
       );
       return;
     }
@@ -40,7 +39,7 @@ export default function RegisterPage() {
         toast.error(error.message || "Registration failed");
         return;
       }
-      
+
       toast.success("Account created");
       router.push("/");
     } catch {

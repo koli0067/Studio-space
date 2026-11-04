@@ -8,8 +8,8 @@ export default function HowItWorksPage() {
         <div className="rounded-2xl bg-white p-8 shadow-sm">
           <h3 className="text-2xl font-bold text-[#24352D]">Why it works</h3>
           <p className="mt-3 text-[#66736A]">
-            StudioSpace connects creators with verified studios. Book in minutes,
-            show up, and create.
+            StudioSpace connects creators with verified studios. Book in
+            minutes, show up, and create.
           </p>
         </div>
       </section>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 
 interface Studio {
@@ -27,11 +27,11 @@ export default function FeaturedStudios() {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios`,
-          { cache: "no-store" }
+          { cache: "no-store" },
         );
         if (!res.ok) throw new Error("Failed");
         const data = await res.json();
-        const list = Array.isArray(data) ? data : data?.studios ?? [];
+        const list = Array.isArray(data) ? data : (data?.studios ?? []);
         setStudios(list.slice(0, 6));
       } catch (e) {
         console.error(e);
@@ -80,7 +80,10 @@ export default function FeaturedStudios() {
                   </span>
                   {studio.rating ? (
                     <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-[#24352D] px-2 py-1 text-xs font-bold text-white">
-                      <Star size={12} className="fill-[#C58B55] text-[#C58B55]" />
+                      <Star
+                        size={12}
+                        className="fill-[#C58B55] text-[#C58B55]"
+                      />
                       {studio.rating}
                     </span>
                   ) : null}
@@ -89,13 +92,15 @@ export default function FeaturedStudios() {
                   <h3 className="text-lg font-bold text-[#24352D]">
                     {studio.name}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">{studio.location}</p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {studio.location}
+                  </p>
                   <div className="mt-3 flex items-center justify-between">
                     <span className="text-base font-bold text-[#C58B55]">
                       ${studio.pricePerHour} / hr
                     </span>
                     <Link
-                      href={`/explore-studios/${studio._id}`}
+                      href={`/studios/${studio._id}`}
                       className="rounded-lg bg-[#24352D] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#354D40]"
                     >
                       View Details

@@ -17,7 +17,7 @@ interface Studio {
 const ExploreStudiosData = async () => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/studios`,
-    { cache: "no-store" }
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -29,9 +29,17 @@ const ExploreStudiosData = async () => {
   return <ExploreStudiosClient studios={data} />;
 };
 
+const ExploreGridFallback = () => (
+  <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8]">
+    <p className="text-xl font-semibold text-[#24352D] animate-pulse">
+      Loading...
+    </p>
+  </div>
+);
+
 const ExploreStudiosPage = () => {
   return (
-    <Suspense fallback={<p className="p-10 text-center">Loading studios...</p>}>
+    <Suspense fallback={<ExploreGridFallback />}>
       <ExploreStudiosData />
     </Suspense>
   );

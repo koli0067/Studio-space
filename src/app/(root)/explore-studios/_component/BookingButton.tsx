@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/auth-client";
-import toast from "react-hot-toast";
 import { CalendarDays, Clock, Loader2, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { type FormEvent, useState } from "react";
+import toast from "react-hot-toast";
+import { useSession } from "@/lib/auth-client";
 import GetTokenFromClient from "@/lib/GetTokenFromClient";
 
 interface BookingButtonProps {
@@ -36,13 +36,11 @@ export default function BookingButton({
   ].join("-");
 
   const startMinutes = startTime
-    ? Number(startTime.split(":")[0]) * 60 +
-      Number(startTime.split(":")[1])
+    ? Number(startTime.split(":")[0]) * 60 + Number(startTime.split(":")[1])
     : 0;
 
   const endMinutes = endTime
-    ? Number(endTime.split(":")[0]) * 60 +
-      Number(endTime.split(":")[1])
+    ? Number(endTime.split(":")[0]) * 60 + Number(endTime.split(":")[1])
     : 0;
 
   const totalMinutes = endMinutes - startMinutes;
@@ -98,7 +96,7 @@ export default function BookingButton({
             startTime,
             endTime,
           }),
-        }
+        },
       );
 
       const result = await response.json();
@@ -110,7 +108,7 @@ export default function BookingButton({
 
       toast.success("Booking request submitted successfully!");
       setIsOpen(false);
-      router.push("/dashboard/my-bookings");
+      router.push("/my-bookings");
       router.refresh();
     } catch (error) {
       console.error("Booking Error:", error);
@@ -157,7 +155,7 @@ export default function BookingButton({
             : "cursor-not-allowed bg-gray-300 text-gray-500"
         }`}
       >
-        {isAvailable ? "Book This Studio" : "Currently Unavailable"}
+        {isAvailable ? "Book Workspace Now" : "Currently Unavailable"}
       </button>
 
       {isOpen && (
@@ -165,7 +163,7 @@ export default function BookingButton({
           <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
             <div className="mb-6 flex items-start justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-[#1F2924]">
+                <h2 className="text-2xl font-bold text-[#24352D]">
                   Book Your Studio
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
@@ -184,7 +182,10 @@ export default function BookingButton({
 
             <form onSubmit={handleBooking} className="space-y-5">
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                <label
+                  htmlFor="booking-date"
+                  className="mb-2 block text-sm font-semibold text-slate-700"
+                >
                   Booking Date
                 </label>
                 <div className="relative">
@@ -193,6 +194,7 @@ export default function BookingButton({
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
                   />
                   <input
+                    id="booking-date"
                     type="date"
                     value={bookingDate}
                     min={minDate}
@@ -205,7 +207,10 @@ export default function BookingButton({
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
+                  <label
+                    htmlFor="booking-start-time"
+                    className="mb-2 block text-sm font-semibold text-slate-700"
+                  >
                     Start Time
                   </label>
                   <div className="relative">
@@ -214,6 +219,7 @@ export default function BookingButton({
                       className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
                     />
                     <input
+                      id="booking-start-time"
                       type="time"
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
@@ -224,7 +230,10 @@ export default function BookingButton({
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
+                  <label
+                    htmlFor="booking-end-time"
+                    className="mb-2 block text-sm font-semibold text-slate-700"
+                  >
                     End Time
                   </label>
                   <div className="relative">
@@ -233,6 +242,7 @@ export default function BookingButton({
                       className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
                     />
                     <input
+                      id="booking-end-time"
                       type="time"
                       value={endTime}
                       min={startTime || undefined}
@@ -245,14 +255,14 @@ export default function BookingButton({
               </div>
 
               <div className="rounded-xl bg-[#F5F7F5] p-5">
-                <h3 className="mb-3 font-bold text-[#1F2924]">
+                <h3 className="mb-3 font-bold text-[#24352D]">
                   Booking Summary
                 </h3>
 
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between text-slate-600">
                     <span>Hourly Price</span>
-                    <span>৳{pricePerHour}</span>
+                    <span>${pricePerHour}</span>
                   </div>
 
                   <div className="flex justify-between text-slate-600">
@@ -262,9 +272,9 @@ export default function BookingButton({
 
                   <div className="my-2 border-t border-slate-200" />
 
-                  <div className="flex justify-between text-base font-bold text-[#1F2924]">
+                  <div className="flex justify-between text-base font-bold text-[#24352D]">
                     <span>Total Price</span>
-                    <span>৳{totalPrice.toLocaleString("en-BD")}</span>
+                    <span>${totalPrice.toLocaleString("en-US")}</span>
                   </div>
                 </div>
               </div>
