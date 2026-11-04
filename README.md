@@ -36,34 +36,25 @@ StudioSpace is a peer-to-peer creative workspace booking platform where creators
 
 ## Local Setup
 
-**1. Clone the repository**
+Local Setup
 
-```bash
-git clone https://github.com/koli0067/Studio-space
-cd StudioSpace
-```
+1. Clone the repository
+git clone https://github.com/koli0067/Studio-space.git
+cd Studio-space
 
-**2. Setup Backend**
-
-```bash
+2. Setup Backend
 cd server
 npm install
 npm run dev
-```
 
-**3. Setup Frontend**
-
-Open another terminal:
-
-```bash
+3. Setup Frontend
+(Open another terminal)
 cd client
 npm install
 npm run dev
-```
+
 4. Run the Application
-
 Open your browser:
-
 http://localhost:3000
 
 Configure the required environment variables before running the application.
