@@ -1,3 +1,4 @@
+
 import {
   ArrowRight,
   CalendarDays,
@@ -41,7 +42,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-white px-5 py-20 sm:px-8 lg:py-24">
+    <section className="bg-white px-5 py-20 dark:bg-[#121B16] sm:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
         {/* Section Heading */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
@@ -49,12 +50,12 @@ export default function HowItWorks() {
             Simple Booking Process
           </p>
 
-          <h2 className="text-3xl font-bold leading-tight text-[#24352D] sm:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-bold leading-tight text-[#24352D] dark:text-white sm:text-4xl lg:text-5xl">
             How It
             <span className="text-[#C58B55]"> Works</span>
           </h2>
 
-          <p className="mt-5 text-base leading-8 text-[#66736A] sm:text-lg">
+          <p className="mt-5 text-base leading-8 text-[#66736A] dark:text-gray-400 sm:text-lg">
             Booking your perfect photography studio is simple. Follow these four
             easy steps and get ready to bring your creative vision to life.
           </p>
@@ -70,7 +71,7 @@ export default function HowItWorks() {
                 {/* Connector Arrow */}
                 {index !== steps.length - 1 && (
                   <div className="absolute left-[calc(50%+48px)] top-9 hidden w-[calc(100%-70px)] lg:block">
-                    <div className="border-t-2 border-dashed border-[#D9C9B4]" />
+                    <div className="border-t-2 border-dashed border-[#D9C9B4] dark:border-gray-600" />
                     <ArrowRight
                       size={19}
                       className="absolute -right-1 -top-[10px] text-[#C58B55]"
@@ -79,7 +80,7 @@ export default function HowItWorks() {
                 )}
 
                 {/* Icon Circle */}
-                <div className="relative mx-auto mb-7 flex h-20 w-20 items-center justify-center rounded-full border-2 border-[#E9D8C3] bg-[#F5F1E8] transition duration-300 hover:border-[#C58B55] hover:bg-[#24352D] group">
+                <div className="group relative mx-auto mb-7 flex h-20 w-20 items-center justify-center rounded-full border-2 border-[#E9D8C3] bg-[#F5F1E8] transition duration-300 hover:border-[#C58B55] hover:bg-[#24352D] dark:border-gray-600 dark:bg-[#1B2922]">
                   <Icon
                     size={32}
                     strokeWidth={1.7}
@@ -92,11 +93,11 @@ export default function HowItWorks() {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-[#24352D]">
+                <h3 className="text-xl font-bold text-[#24352D] dark:text-white">
                   {step.title}
                 </h3>
 
-                <p className="mx-auto mt-3 max-w-xs text-sm leading-7 text-[#66736A]">
+                <p className="mx-auto mt-3 max-w-xs text-sm leading-7 text-[#66736A] dark:text-gray-400">
                   {step.description}
                 </p>
               </div>

@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import ExploreStudiosClient from "./ExploreStudiosClient";
 
@@ -30,8 +31,8 @@ const ExploreStudiosData = async () => {
 };
 
 const ExploreGridFallback = () => (
-  <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8]">
-    <p className="text-xl font-semibold text-[#24352D] animate-pulse">
+  <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8] dark:bg-[#121B16]">
+    <p className="animate-pulse text-xl font-semibold text-[#24352D] dark:text-white">
       Loading...
     </p>
   </div>

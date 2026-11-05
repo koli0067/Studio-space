@@ -1,3 +1,4 @@
+
 import {
   ArrowUpRight,
   CalendarDays,
@@ -10,9 +11,9 @@ import Link from "next/link";
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-[#faf9f6] p-5 md:p-8">
+    <div className="min-h-screen bg-[#faf9f6] p-5 dark:bg-[#121B16] md:p-8">
       {/* Welcome Banner */}
-      <section className="relative mb-8 overflow-hidden rounded-3xl bg-[#243b32] p-7 text-white md:p-10">
+      <section className="relative mb-8 overflow-hidden rounded-3xl bg-[#243b32] p-7 text-white dark:bg-[#1B2922] md:p-10">
         <div className="relative z-10 max-w-xl">
           <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-medium text-[#e4d9bd]">
             <Sparkles size={14} />
@@ -50,13 +51,13 @@ export default function DashboardPage() {
 
       {/* Section Heading */}
       <div className="mb-5">
-        <p className="text-xs font-semibold uppercase tracking-[3px] text-[#8b927f]">
+        <p className="text-xs font-semibold uppercase tracking-[3px] text-[#8b927f] dark:text-[#C58B55]">
           Workspace Overview
         </p>
-        <h2 className="mt-2 text-2xl font-bold text-[#243b32]">
+        <h2 className="mt-2 text-2xl font-bold text-[#243b32] dark:text-white">
           Manage Your Space
         </h2>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
           Everything you need to manage your StudioSpace account.
         </p>
       </div>
@@ -65,20 +66,22 @@ export default function DashboardPage() {
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         <Link
           href="/dashboard/add-studio"
-          className="group rounded-2xl border border-[#e9e5da] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#a9b9a8] hover:shadow-lg"
+          className="group rounded-2xl border border-[#e9e5da] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#a9b9a8] hover:shadow-lg dark:border-gray-700 dark:bg-[#1B2922] dark:hover:border-[#C58B55]"
         >
-          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#edf1e9] text-[#29483b] transition group-hover:bg-[#243b32] group-hover:text-white">
+          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#edf1e9] text-[#29483b] transition group-hover:bg-[#243b32] group-hover:text-white dark:bg-[#24352D] dark:text-[#C58B55] dark:group-hover:bg-[#C58B55] dark:group-hover:text-[#121B16]">
             <Plus size={27} />
           </div>
 
-          <h3 className="text-lg font-bold text-[#243b32]">Add New Studio</h3>
+          <h3 className="text-lg font-bold text-[#243b32] dark:text-white">
+            Add New Studio
+          </h3>
 
-          <p className="mt-2 text-sm leading-6 text-gray-500">
+          <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
             Share your creative space with creators and add a new studio
             listing.
           </p>
 
-          <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58]">
+          <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58] dark:border-gray-700 dark:text-[#C58B55]">
             Get Started
             <ArrowUpRight
               size={19}
@@ -89,21 +92,21 @@ export default function DashboardPage() {
 
         <Link
           href="/dashboard/my-listings"
-          className="group rounded-2xl border border-[#e9e5da] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#a9b9a8] hover:shadow-lg"
+          className="group rounded-2xl border border-[#e9e5da] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#a9b9a8] hover:shadow-lg dark:border-gray-700 dark:bg-[#1B2922] dark:hover:border-[#C58B55]"
         >
-          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f3eee2] text-[#927744] transition group-hover:bg-[#243b32] group-hover:text-white">
+          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f3eee2] text-[#927744] transition group-hover:bg-[#243b32] group-hover:text-white dark:bg-[#24352D] dark:text-[#C58B55] dark:group-hover:bg-[#C58B55] dark:group-hover:text-[#121B16]">
             <ClipboardList size={27} />
           </div>
 
-          <h3 className="text-lg font-bold text-[#243b32]">
+          <h3 className="text-lg font-bold text-[#243b32] dark:text-white">
             My Studio Listings
           </h3>
 
-          <p className="mt-2 text-sm leading-6 text-gray-500">
+          <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
             View, update and manage all your listed creative spaces.
           </p>
 
-          <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58]">
+          <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58] dark:border-gray-700 dark:text-[#C58B55]">
             Manage Listings
             <ArrowUpRight
               size={19}
@@ -114,19 +117,21 @@ export default function DashboardPage() {
 
         <Link
           href="/dashboard/my-bookings"
-          className="group rounded-2xl border border-[#e9e5da] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#a9b9a8] hover:shadow-lg sm:col-span-2 xl:col-span-1"
+          className="group rounded-2xl border border-[#e9e5da] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#a9b9a8] hover:shadow-lg dark:border-gray-700 dark:bg-[#1B2922] dark:hover:border-[#C58B55] sm:col-span-2 xl:col-span-1"
         >
-          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eaf0ed] text-[#426d5b] transition group-hover:bg-[#243b32] group-hover:text-white">
+          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eaf0ed] text-[#426d5b] transition group-hover:bg-[#243b32] group-hover:text-white dark:bg-[#24352D] dark:text-[#C58B55] dark:group-hover:bg-[#C58B55] dark:group-hover:text-[#121B16]">
             <CalendarDays size={27} />
           </div>
 
-          <h3 className="text-lg font-bold text-[#243b32]">My Bookings</h3>
+          <h3 className="text-lg font-bold text-[#243b32] dark:text-white">
+            My Bookings
+          </h3>
 
-          <p className="mt-2 text-sm leading-6 text-gray-500">
+          <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
             Keep track of your studio reservations and booking status.
           </p>
 
-          <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58]">
+          <div className="mt-6 flex items-center justify-between border-t border-[#f0eee8] pt-4 text-sm font-semibold text-[#526c58] dark:border-gray-700 dark:text-[#C58B55]">
             View Bookings
             <ArrowUpRight
               size={19}
@@ -137,13 +142,13 @@ export default function DashboardPage() {
       </div>
 
       {/* Bottom Message */}
-      <div className="mt-8 rounded-2xl border border-[#e9e5da] bg-[#f0eee5] p-6 md:p-8">
+      <div className="mt-8 rounded-2xl border border-[#e9e5da] bg-[#f0eee5] p-6 dark:border-gray-700 dark:bg-[#1B2922] md:p-8">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h3 className="text-lg font-bold text-[#243b32]">
+            <h3 className="text-lg font-bold text-[#243b32] dark:text-white">
               Create Something Amazing!
             </h3>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               Find the perfect space for your next creative project.
             </p>
           </div>

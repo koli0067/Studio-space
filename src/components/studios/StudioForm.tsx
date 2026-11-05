@@ -1,9 +1,11 @@
+
 "use client";
 
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import ImageUpload from "@/components/shared/ImageUpload";
 import { Spinner } from "@/components/ui/spinner";
 import { useSession } from "@/lib/auth-client";
+import MultiImageUpload from "../shared/MultiImageUpload";
 
 export interface FacilityField {
   id: string;
@@ -15,6 +17,7 @@ export interface StudioFormValues {
   categorySlug: string;
   description: string;
   image: string;
+  images: string[];
   location: string;
   pricePerHour: number;
   securityDeposit: number;
@@ -29,6 +32,7 @@ export interface StudioSubmitData {
   categorySlug: string;
   description: string;
   image: string;
+  images: string[];
   location: string;
   pricePerHour: number;
   securityDeposit: number;
@@ -82,6 +86,7 @@ const createDefaultValues = (
   categorySlug: "photo-studios",
   description: "",
   image: "",
+  images: [],
   location: "",
   pricePerHour: 0,
   securityDeposit: 0,
@@ -93,7 +98,13 @@ const createDefaultValues = (
 });
 
 const inputClass =
-  "w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-[#24352D] focus:ring-2 focus:ring-[#24352D]/10";
+  "w-full rounded-lg border border-slate-300 px-4 py-3 bg-white text-[#24352D] outline-none transition placeholder:text-slate-400 focus:border-[#24352D] focus:ring-2 focus:ring-[#24352D]/10 dark:border-gray-600 dark:bg-[#1B2922] dark:text-white dark:placeholder:text-gray-500 dark:focus:border-[#C58B55]";
+
+const labelClass =
+  "mb-2 block text-sm font-semibold text-slate-700 dark:text-gray-300";
+
+const headingClass =
+  "border-b border-[#E8E3D9] pb-3 text-lg font-bold text-[#24352D] dark:border-gray-700 dark:text-white";
 
 const StudioForm = ({
   initialValues,
@@ -180,6 +191,7 @@ const StudioForm = ({
       categorySlug: formData.categorySlug,
       description: formData.description,
       image: formData.image,
+      images: formData.images,
       location: formData.location,
       pricePerHour: Number(formData.pricePerHour),
       securityDeposit: Number(formData.securityDeposit),
@@ -197,7 +209,7 @@ const StudioForm = ({
   if (isPending || !user) {
     return (
       <div className="flex h-[50vh] items-center justify-center">
-        <Spinner className="h-16 w-16 text-[#24352D]" />
+        <Spinner className="h-16 w-16 text-[#24352D] dark:text-[#C58B55]" />
       </div>
     );
   }
@@ -206,16 +218,13 @@ const StudioForm = ({
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Read-only Host Information */}
       <div className="space-y-5">
-        <h2 className="border-b border-[#E8E3D9] pb-3 text-lg font-bold text-[#24352D]">
+        <h2 className={headingClass}>
           Host Information (Read-Only)
         </h2>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div>
-            <label
-              htmlFor="host-name"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="host-name" className={labelClass}>
               Host Name
             </label>
             <input
@@ -223,15 +232,12 @@ const StudioForm = ({
               type="text"
               value={user.name || ""}
               disabled
-              className="w-full cursor-not-allowed rounded-lg border border-[#E8E3D9] bg-slate-100 px-4 py-3 text-slate-500 outline-none"
+              className="w-full cursor-not-allowed rounded-lg border border-[#E8E3D9] bg-slate-100 px-4 py-3 text-slate-500 outline-none dark:border-gray-700 dark:bg-[#24352D] dark:text-gray-400"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="host-email"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="host-email" className={labelClass}>
               Host Email
             </label>
             <input
@@ -239,7 +245,7 @@ const StudioForm = ({
               type="email"
               value={user.email || ""}
               disabled
-              className="w-full cursor-not-allowed rounded-lg border border-[#E8E3D9] bg-slate-100 px-4 py-3 text-slate-500 outline-none"
+              className="w-full cursor-not-allowed rounded-lg border border-[#E8E3D9] bg-slate-100 px-4 py-3 text-slate-500 outline-none dark:border-gray-700 dark:bg-[#24352D] dark:text-gray-400"
             />
           </div>
         </div>
@@ -247,16 +253,13 @@ const StudioForm = ({
 
       {/* Basic Information */}
       <div className="space-y-5">
-        <h2 className="border-b border-[#E8E3D9] pb-3 text-lg font-bold text-[#24352D]">
+        <h2 className={headingClass}>
           Basic Information
         </h2>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div>
-            <label
-              htmlFor="studio-name"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="studio-name" className={labelClass}>
               Studio Title *
             </label>
             <input
@@ -272,10 +275,7 @@ const StudioForm = ({
           </div>
 
           <div>
-            <label
-              htmlFor="studio-category"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="studio-category" className={labelClass}>
               Category *
             </label>
             <select
@@ -284,7 +284,7 @@ const StudioForm = ({
               value={formData.categorySlug}
               onChange={handleChange}
               required
-              className={`${inputClass} bg-white`}
+              className={`${inputClass} bg-white dark:bg-[#1B2922]`}
             >
               {CATEGORY_OPTIONS.map((category) => (
                 <option key={category.value} value={category.value}>
@@ -298,16 +298,13 @@ const StudioForm = ({
 
       {/* Pricing & Capacity */}
       <div className="space-y-5">
-        <h2 className="border-b border-[#E8E3D9] pb-3 text-lg font-bold text-[#24352D]">
+        <h2 className={headingClass}>
           Pricing &amp; Capacity
         </h2>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           <div>
-            <label
-              htmlFor="price-per-hour"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="price-per-hour" className={labelClass}>
               Hourly Rate ($) *
             </label>
             <input
@@ -324,10 +321,7 @@ const StudioForm = ({
           </div>
 
           <div>
-            <label
-              htmlFor="security-deposit"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="security-deposit" className={labelClass}>
               Security Deposit ($) *
             </label>
             <input
@@ -344,10 +338,7 @@ const StudioForm = ({
           </div>
 
           <div>
-            <label
-              htmlFor="max-capacity"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="max-capacity" className={labelClass}>
               Max Capacity *
             </label>
             <input
@@ -367,16 +358,13 @@ const StudioForm = ({
 
       {/* Location & Media */}
       <div className="space-y-5">
-        <h2 className="border-b border-[#E8E3D9] pb-3 text-lg font-bold text-[#24352D]">
+        <h2 className={headingClass}>
           Location &amp; Details
         </h2>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div className="md:col-span-2">
-            <label
-              htmlFor="studio-location"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="studio-location" className={labelClass}>
               Location / Address *
             </label>
             <input
@@ -392,30 +380,39 @@ const StudioForm = ({
           </div>
 
           <div className="space-y-3 md:col-span-2">
-            <label
-              htmlFor="studio-image-url"
-              className="block text-sm font-semibold text-slate-700"
-            >
+            <label className={labelClass}>
               Studio Image *
             </label>
 
-            <input
-              id="studio-image-url"
-              name="image"
+            <ImageUpload
               value={formData.image}
-              onChange={handleChange}
-              type="url"
-              placeholder="Or paste an image URL manually"
-              required
-              className={inputClass}
+              onChange={(url) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  image: url,
+                }))
+              }
+            />
+          </div>
+
+          <div className="space-y-3 md:col-span-2">
+            <label className={labelClass}>
+              Gallery Images (Maximum 5)
+            </label>
+
+            <MultiImageUpload
+              value={formData.images}
+              onChange={(urls) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  images: urls,
+                }))
+              }
             />
           </div>
 
           <div className="md:col-span-2">
-            <label
-              htmlFor="studio-description"
-              className="mb-2 block text-sm font-semibold text-slate-700"
-            >
+            <label htmlFor="studio-description" className={labelClass}>
               Detailed Overview *
             </label>
             <textarea
@@ -434,7 +431,7 @@ const StudioForm = ({
 
       {/* Amenities */}
       <div className="space-y-4">
-        <h2 className="border-b border-[#E8E3D9] pb-3 text-lg font-bold text-[#24352D]">
+        <h2 className={headingClass}>
           Amenities
         </h2>
 
@@ -447,8 +444,8 @@ const StudioForm = ({
                 key={amenity}
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border p-3 transition ${
                   isSelected
-                    ? "border-[#24352D] bg-[#24352D]/5 font-semibold text-[#24352D]"
-                    : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                    ? "border-[#24352D] bg-[#24352D]/5 font-semibold text-[#24352D] dark:border-[#C58B55] dark:bg-[#C58B55]/10 dark:text-[#E5B98A]"
+                    : "border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-[#24352D]"
                 }`}
               >
                 <input
@@ -466,7 +463,7 @@ const StudioForm = ({
 
       {/* Custom Facilities */}
       <div className="space-y-3">
-        <h2 className="border-b border-[#E8E3D9] pb-3 text-lg font-bold text-[#24352D]">
+        <h2 className={headingClass}>
           Custom Facilities
         </h2>
 
@@ -486,7 +483,7 @@ const StudioForm = ({
               <button
                 type="button"
                 onClick={() => removeFacilityField(facility.id)}
-                className="rounded-lg bg-red-100 px-3 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-200"
+                className="rounded-lg bg-red-100 px-3 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-200 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-950/70"
               >
                 Remove
               </button>
@@ -497,7 +494,7 @@ const StudioForm = ({
         <button
           type="button"
           onClick={addFacilityField}
-          className="mt-2 rounded-lg border border-dashed border-[#24352D] px-4 py-2 text-sm font-semibold text-[#24352D] transition hover:bg-[#24352D]/5"
+          className="mt-2 rounded-lg border border-dashed border-[#24352D] px-4 py-2 text-sm font-semibold text-[#24352D] transition hover:bg-[#24352D]/5 dark:border-[#C58B55] dark:text-[#E5B98A] dark:hover:bg-[#C58B55]/10"
         >
           + Add Custom Facility
         </button>
@@ -520,7 +517,7 @@ const StudioForm = ({
         />
         <label
           htmlFor="is-available"
-          className="cursor-pointer text-sm font-semibold text-slate-700"
+          className="cursor-pointer text-sm font-semibold text-slate-700 dark:text-gray-300"
         >
           Studio is available for instant booking
         </label>

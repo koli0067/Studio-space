@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -169,22 +170,6 @@ const MyBookingsPage = () => {
     }
   };
 
-  // const getStatusStyle = (status: Booking["status"]) => {
-  //   switch (status) {
-  //     case "Pending":
-  //       return "bg-amber-100 text-amber-700";
-  //     case "Confirmed":
-  //       return "bg-green-100 text-green-700";
-  //     case "Completed":
-  //       return "bg-blue-100 text-blue-700";
-  //     case "Cancelled":
-  //       return "bg-red-100 text-red-700";
-  //     default:
-  //       return "bg-gray-100 text-gray-700";
-  //   }
-  // };
-
-
   const getStatusStyle = (status: string) => {
     switch (status?.toLowerCase()) {
       case "pending":
@@ -200,10 +185,9 @@ const MyBookingsPage = () => {
     }
   };
 
-
   if (isPending || loading) {
     return (
-      <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
+      <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 dark:bg-[#121B16] md:px-8">
         <div className="mx-auto max-w-6xl space-y-6">
           <Skeleton className="h-4 w-36" />
           <Skeleton className="h-10 w-56" />
@@ -213,7 +197,7 @@ const MyBookingsPage = () => {
           {[1, 2].map((item) => (
             <div
               key={item}
-              className="grid grid-cols-1 gap-4 overflow-hidden rounded-2xl border border-[#E8E3D9] bg-white p-5 md:grid-cols-[260px_1fr]"
+              className="grid grid-cols-1 gap-4 overflow-hidden rounded-2xl border border-[#E8E3D9] bg-white p-5 dark:border-gray-700 dark:bg-[#1B2922] md:grid-cols-[260px_1fr]"
             >
               <Skeleton className="h-52 w-full rounded-xl md:h-[220px]" />
               <div className="space-y-4">
@@ -235,12 +219,12 @@ const MyBookingsPage = () => {
 
   if (!userEmail) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center px-4">
+      <div className="flex min-h-[70vh] items-center justify-center bg-[#F5F1E8] px-4 dark:bg-[#121B16]">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-[#24352D]">
+          <h2 className="text-2xl font-bold text-[#24352D] dark:text-white">
             Please Login First
           </h2>
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-slate-500 dark:text-gray-400">
             Login to see your studio bookings.
           </p>
           <Link
@@ -255,25 +239,27 @@ const MyBookingsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
+    <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 dark:bg-[#121B16] md:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-[#8C6D4F]">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-[#8C6D4F] dark:text-[#C58B55]">
             Your Reservations
           </p>
-          <h1 className="text-3xl font-bold text-[#24352D] md:text-4xl">
+          <h1 className="text-3xl font-bold text-[#24352D] dark:text-white md:text-4xl">
             My Bookings
           </h1>
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-slate-500 dark:text-gray-400">
             Manage your studio reservations and booking details.
           </p>
         </div>
 
         {/* Booking Count */}
-        <div className="mb-6 rounded-xl border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-500">Total Bookings</p>
-          <p className="mt-1 text-3xl font-bold text-[#24352D]">
+        <div className="mb-6 rounded-xl border border-slate-200 bg-white p-5 dark:border-gray-700 dark:bg-[#1B2922]">
+          <p className="text-sm text-slate-500 dark:text-gray-400">
+            Total Bookings
+          </p>
+          <p className="mt-1 text-3xl font-bold text-[#24352D] dark:text-white">
             {bookings.length}
           </p>
         </div>
@@ -298,11 +284,11 @@ const MyBookingsPage = () => {
             {bookings.map((booking) => (
               <div
                 key={booking._id}
-                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
+                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md dark:border-gray-700 dark:bg-[#1B2922]"
               >
                 <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
                   {/* Studio Image */}
-                  <div className="relative min-h-[220px] bg-slate-100">
+                  <div className="relative min-h-[220px] bg-slate-100 dark:bg-gray-800">
                     {booking.image ? (
                       <Image
                         src={booking.image}
@@ -313,7 +299,7 @@ const MyBookingsPage = () => {
                         sizes="(max-width: 768px) 100vw, 260px"
                       />
                     ) : (
-                      <div className="flex h-full min-h-[220px] items-center justify-center text-slate-400">
+                      <div className="flex h-full min-h-[220px] items-center justify-center text-slate-400 dark:text-gray-500">
                         No Image
                       </div>
                     )}
@@ -323,10 +309,10 @@ const MyBookingsPage = () => {
                   <div className="p-5 md:p-6">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-[#8C6D4F]">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-[#8C6D4F] dark:text-[#C58B55]">
                           {booking.categorySlug?.replaceAll("-", " ")}
                         </p>
-                        <h2 className="mt-1 text-xl font-bold text-[#24352D]">
+                        <h2 className="mt-1 text-xl font-bold text-[#24352D] dark:text-white">
                           {booking.name}
                         </h2>
                       </div>
@@ -340,12 +326,12 @@ const MyBookingsPage = () => {
                       </span>
                     </div>
 
-                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-500">
+                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-500 dark:text-gray-400">
                       {booking.description}
                     </p>
 
                     {/* Location & Capacity */}
-                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-600">
+                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-600 dark:text-gray-300">
                       <div className="flex items-center gap-2">
                         <MapPin size={16} />
                         <span>{booking.location}</span>
@@ -358,33 +344,33 @@ const MyBookingsPage = () => {
                     </div>
 
                     {/* Booking Date & Time */}
-                    <div className="mt-5 grid grid-cols-1 gap-3 rounded-xl bg-[#F5F7F5] p-4 sm:grid-cols-3">
+                    <div className="mt-5 grid grid-cols-1 gap-3 rounded-xl bg-[#F5F7F5] p-4 dark:bg-[#24352D] sm:grid-cols-3">
                       <div>
-                        <p className="flex items-center gap-2 text-xs text-slate-500">
+                        <p className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-400">
                           <CalendarDays size={15} />
                           Booking Date
                         </p>
-                        <p className="mt-1 font-semibold text-[#24352D]">
+                        <p className="mt-1 font-semibold text-[#24352D] dark:text-white">
                           {booking.bookingDate}
                         </p>
                       </div>
 
                       <div>
-                        <p className="flex items-center gap-2 text-xs text-slate-500">
+                        <p className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-400">
                           <Clock size={15} />
                           Start Time
                         </p>
-                        <p className="mt-1 font-semibold text-[#24352D]">
+                        <p className="mt-1 font-semibold text-[#24352D] dark:text-white">
                           {booking.startTime}
                         </p>
                       </div>
 
                       <div>
-                        <p className="flex items-center gap-2 text-xs text-slate-500">
+                        <p className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-400">
                           <Clock size={15} />
                           End Time
                         </p>
-                        <p className="mt-1 font-semibold text-[#24352D]">
+                        <p className="mt-1 font-semibold text-[#24352D] dark:text-white">
                           {booking.endTime}
                         </p>
                       </div>
@@ -393,24 +379,26 @@ const MyBookingsPage = () => {
                     {/* Price Details */}
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
                       <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-                        <p className="text-slate-500">
+                        <p className="text-slate-500 dark:text-gray-400">
                           Duration:{" "}
-                          <span className="font-semibold text-[#24352D]">
+                          <span className="font-semibold text-[#24352D] dark:text-white">
                             {formatDuration(booking.startTime, booking.endTime)}
                           </span>
                         </p>
 
-                        <p className="text-slate-500">
+                        <p className="text-slate-500 dark:text-gray-400">
                           Per Hour:{" "}
-                          <span className="font-semibold text-[#24352D]">
+                          <span className="font-semibold text-[#24352D] dark:text-white">
                             ${booking.pricePerHour}
                           </span>
                         </p>
                       </div>
 
                       <div className="text-right">
-                        <p className="text-xs text-slate-500">Total Price</p>
-                        <p className="text-xl font-bold text-[#24352D]">
+                        <p className="text-xs text-slate-500 dark:text-gray-400">
+                          Total Price
+                        </p>
+                        <p className="text-xl font-bold text-[#24352D] dark:text-white">
                           ${booking.totalPrice?.toLocaleString("en-US")}
                         </p>
                       </div>
@@ -422,7 +410,7 @@ const MyBookingsPage = () => {
                         {booking.facilities.map((facility) => (
                           <span
                             key={facility}
-                            className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600"
+                            className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600 dark:bg-[#24352D] dark:text-gray-300"
                           >
                             {facility}
                           </span>
@@ -431,7 +419,7 @@ const MyBookingsPage = () => {
                     )}
 
                     {/* Actions */}
-                    <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-5">
+                    <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-5 dark:border-gray-700">
                       <Link
                         href={`/explore-studios/${booking.studioId}`}
                         className="inline-flex items-center gap-2 rounded-lg bg-[#24352D] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#344A3F]"
@@ -440,22 +428,22 @@ const MyBookingsPage = () => {
                         <ArrowUpRight size={16} />
                       </Link>
 
-                     {booking.status?.toLowerCase() === "pending" && (
-                          <button
-                            type="button"
-                            onClick={() => setSelectedBookingId(booking._id)}
-                            disabled={cancellingId === booking._id}
-                            className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-50"
-                          >
-                            {cancellingId === booking._id ? (
-                              <Loader2 size={16} className="animate-spin" />
-                            ) : (
-                              <XCircle size={16} />
-                            )}
-                            Cancel Booking
-                          </button>
-                        )}
-                       </div>
+                      {booking.status?.toLowerCase() === "pending" && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedBookingId(booking._id)}
+                          disabled={cancellingId === booking._id}
+                          className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950"
+                        >
+                          {cancellingId === booking._id ? (
+                            <Loader2 size={16} className="animate-spin" />
+                          ) : (
+                            <XCircle size={16} />
+                          )}
+                          Cancel Booking
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -467,16 +455,16 @@ const MyBookingsPage = () => {
       {/* Custom Cancel Confirmation Modal */}
       {selectedBookingId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:border dark:border-gray-700 dark:bg-[#1B2922]">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 dark:bg-red-950">
               <AlertTriangle size={28} className="text-red-500" />
             </div>
 
-            <h2 className="mt-4 text-center text-xl font-bold text-[#24352D]">
+            <h2 className="mt-4 text-center text-xl font-bold text-[#24352D] dark:text-white">
               Cancel Your Booking?
             </h2>
 
-            <p className="mt-2 text-center text-sm leading-6 text-slate-500">
+            <p className="mt-2 text-center text-sm leading-6 text-slate-500 dark:text-gray-400">
               Are you sure you want to cancel this studio reservation? This
               action will update your booking status to Cancelled.
             </p>
@@ -486,7 +474,7 @@ const MyBookingsPage = () => {
                 type="button"
                 onClick={() => setSelectedBookingId(null)}
                 disabled={!!cancellingId}
-                className="flex-1 rounded-lg border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:opacity-50"
+                className="flex-1 rounded-lg border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-[#24352D]"
               >
                 Keep Booking
               </button>
@@ -495,7 +483,7 @@ const MyBookingsPage = () => {
                 type="button"
                 onClick={handleCancelBooking}
                 disabled={!!cancellingId}
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
               >
                 {cancellingId ? (
                   <>

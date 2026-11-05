@@ -1,3 +1,4 @@
+
 "use client";
 
 import { CalendarDays, Clock, Loader2, X } from "lucide-react";
@@ -61,12 +62,13 @@ export default function BookingButton({
   const handleBooking = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const token = await GetTokenFromClient();
-
     if (!session?.user?.email) {
       toast.error("Please login first!");
+      router.push("/login");
       return;
     }
+
+    const token = await GetTokenFromClient();
 
     if (!bookingDate || !startTime || !endTime) {
       toast.error("Please select date and time!");
@@ -123,7 +125,7 @@ export default function BookingButton({
       <button
         type="button"
         disabled
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gray-300 px-6 py-4 font-bold text-gray-500"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gray-300 px-6 py-4 font-bold text-gray-500 dark:bg-gray-700 dark:text-gray-300"
       >
         <Loader2 size={18} className="animate-spin" />
         Please wait...
@@ -138,6 +140,7 @@ export default function BookingButton({
         onClick={() => {
           if (!session?.user?.email) {
             toast.error("Please login first!");
+            router.push("/login");
             return;
           }
 
@@ -152,21 +155,21 @@ export default function BookingButton({
         className={`mt-6 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-4 text-base font-bold shadow-md transition ${
           isAvailable
             ? "bg-[#24352D] text-white hover:bg-[#344A3F]"
-            : "cursor-not-allowed bg-gray-300 text-gray-500"
+            : "cursor-not-allowed bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400"
         }`}
       >
         {isAvailable ? "Book Workspace Now" : "Currently Unavailable"}
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6">
-          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl dark:border dark:border-gray-700 dark:bg-[#1B2922]">
             <div className="mb-6 flex items-start justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-[#24352D]">
+                <h2 className="text-2xl font-bold text-[#24352D] dark:text-white">
                   Book Your Studio
                 </h2>
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">
                   Select your preferred date and time.
                 </p>
               </div>
@@ -174,7 +177,7 @@ export default function BookingButton({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100"
+                className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 dark:text-gray-400 dark:hover:bg-[#24352D]"
               >
                 <X size={20} />
               </button>
@@ -184,14 +187,14 @@ export default function BookingButton({
               <div>
                 <label
                   htmlFor="booking-date"
-                  className="mb-2 block text-sm font-semibold text-slate-700"
+                  className="mb-2 block text-sm font-semibold text-slate-700 dark:text-gray-200"
                 >
                   Booking Date
                 </label>
                 <div className="relative">
                   <CalendarDays
                     size={18}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500"
                   />
                   <input
                     id="booking-date"
@@ -200,7 +203,7 @@ export default function BookingButton({
                     min={minDate}
                     onChange={(e) => setBookingDate(e.target.value)}
                     required
-                    className="w-full rounded-lg border border-slate-300 py-3 pl-10 pr-3 outline-none focus:border-[#24352D]"
+                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-3 text-slate-800 outline-none focus:border-[#24352D] dark:border-gray-600 dark:bg-[#24352D] dark:text-white dark:[color-scheme:dark] dark:focus:border-[#C58B55]"
                   />
                 </div>
               </div>
@@ -209,14 +212,14 @@ export default function BookingButton({
                 <div>
                   <label
                     htmlFor="booking-start-time"
-                    className="mb-2 block text-sm font-semibold text-slate-700"
+                    className="mb-2 block text-sm font-semibold text-slate-700 dark:text-gray-200"
                   >
                     Start Time
                   </label>
                   <div className="relative">
                     <Clock
                       size={18}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500"
                     />
                     <input
                       id="booking-start-time"
@@ -224,7 +227,7 @@ export default function BookingButton({
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
                       required
-                      className="w-full rounded-lg border border-slate-300 py-3 pl-10 pr-3 outline-none focus:border-[#24352D]"
+                      className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-3 text-slate-800 outline-none focus:border-[#24352D] dark:border-gray-600 dark:bg-[#24352D] dark:text-white dark:[color-scheme:dark] dark:focus:border-[#C58B55]"
                     />
                   </div>
                 </div>
@@ -232,14 +235,14 @@ export default function BookingButton({
                 <div>
                   <label
                     htmlFor="booking-end-time"
-                    className="mb-2 block text-sm font-semibold text-slate-700"
+                    className="mb-2 block text-sm font-semibold text-slate-700 dark:text-gray-200"
                   >
                     End Time
                   </label>
                   <div className="relative">
                     <Clock
                       size={18}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500"
                     />
                     <input
                       id="booking-end-time"
@@ -248,31 +251,31 @@ export default function BookingButton({
                       min={startTime || undefined}
                       onChange={(e) => setEndTime(e.target.value)}
                       required
-                      className="w-full rounded-lg border border-slate-300 py-3 pl-10 pr-3 outline-none focus:border-[#24352D]"
+                      className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-3 text-slate-800 outline-none focus:border-[#24352D] dark:border-gray-600 dark:bg-[#24352D] dark:text-white dark:[color-scheme:dark] dark:focus:border-[#C58B55]"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-xl bg-[#F5F7F5] p-5">
-                <h3 className="mb-3 font-bold text-[#24352D]">
+              <div className="rounded-xl bg-[#F5F7F5] p-5 dark:bg-[#24352D]">
+                <h3 className="mb-3 font-bold text-[#24352D] dark:text-white">
                   Booking Summary
                 </h3>
 
                 <div className="space-y-2 text-sm">
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-slate-600 dark:text-gray-300">
                     <span>Hourly Price</span>
                     <span>${pricePerHour}</span>
                   </div>
 
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-slate-600 dark:text-gray-300">
                     <span>Total Hours</span>
                     <span>{formattedDuration}</span>
                   </div>
 
-                  <div className="my-2 border-t border-slate-200" />
+                  <div className="my-2 border-t border-slate-200 dark:border-gray-600" />
 
-                  <div className="flex justify-between text-base font-bold text-[#24352D]">
+                  <div className="flex justify-between text-base font-bold text-[#24352D] dark:text-white">
                     <span>Total Price</span>
                     <span>${totalPrice.toLocaleString("en-US")}</span>
                   </div>
@@ -294,7 +297,7 @@ export default function BookingButton({
                 )}
               </button>
 
-              <p className="text-center text-xs text-slate-500">
+              <p className="text-center text-xs text-slate-500 dark:text-gray-400">
                 Your booking will be submitted with Pending status.
               </p>
             </form>

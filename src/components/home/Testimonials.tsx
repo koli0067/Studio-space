@@ -1,3 +1,4 @@
+
 import { Quote, Star } from "lucide-react";
 
 const testimonials = [
@@ -29,7 +30,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-[#F5F1E8] px-5 py-20 sm:px-8 lg:py-24">
+    <section className="bg-[#F5F1E8] px-5 py-20 dark:bg-[#121B16] sm:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
         {/* Section Heading */}
         <div className="mx-auto mb-14 max-w-2xl text-center">
@@ -37,12 +38,12 @@ export default function Testimonials() {
             Client Experiences
           </p>
 
-          <h2 className="text-3xl font-bold leading-tight text-[#24352D] sm:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-bold leading-tight text-[#24352D] dark:text-white sm:text-4xl lg:text-5xl">
             What Our Customers
             <span className="block text-[#C58B55]">Say About Us</span>
           </h2>
 
-          <p className="mt-5 text-base leading-8 text-[#66736A] sm:text-lg">
+          <p className="mt-5 text-base leading-8 text-[#66736A] dark:text-gray-400 sm:text-lg">
             Discover how StudioSpace helps photography enthusiasts and creative
             professionals find the perfect space for their projects.
           </p>
@@ -53,11 +54,11 @@ export default function Testimonials() {
           {testimonials.map((item) => (
             <div
               key={item.id}
-              className="group rounded-2xl border border-[#E7E1D6] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl sm:p-8"
+              className="group rounded-2xl border border-[#E7E1D6] bg-white p-7 transition duration-300 hover:-translate-y-2 hover:shadow-xl dark:border-gray-700 dark:bg-[#1B2922] sm:p-8"
             >
               {/* Quote Icon */}
               <div className="mb-6 flex items-center justify-between">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F5F1E8]">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F5F1E8] dark:bg-[#24352D]">
                   <Quote size={25} className="text-[#C58B55]" />
                 </div>
 
@@ -75,12 +76,12 @@ export default function Testimonials() {
               </div>
 
               {/* Review */}
-              <p className="min-h-[120px] text-sm leading-8 text-[#66736A]">
+              <p className="min-h-[120px] text-sm leading-8 text-[#66736A] dark:text-gray-400">
                 "{item.review}"
               </p>
 
               {/* Divider */}
-              <div className="my-6 border-t border-gray-100" />
+              <div className="my-6 border-t border-gray-100 dark:border-gray-700" />
 
               {/* Customer Info */}
               <div className="flex items-center gap-4">
@@ -89,9 +90,13 @@ export default function Testimonials() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-[#24352D]">{item.name}</h3>
+                  <h3 className="font-bold text-[#24352D] dark:text-white">
+                    {item.name}
+                  </h3>
 
-                  <p className="mt-1 text-xs text-[#66736A]">{item.role}</p>
+                  <p className="mt-1 text-xs text-[#66736A] dark:text-gray-400">
+                    {item.role}
+                  </p>
                 </div>
               </div>
             </div>
@@ -99,7 +104,7 @@ export default function Testimonials() {
         </div>
 
         {/* Demo Notice */}
-        <p className="mt-8 text-center text-xs text-[#66736A]">
+        <p className="mt-8 text-center text-xs text-[#66736A] dark:text-gray-500">
           Sample testimonials for demonstration purposes.
         </p>
       </div>

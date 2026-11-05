@@ -1,9 +1,10 @@
+
 import { Camera, Home } from "lucide-react";
 import Link from "next/link";
 
 const NotFoundPage = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8] px-4 py-16">
+    <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8] px-4 py-16 dark:bg-[#121B16]">
       <div className="mx-auto max-w-2xl text-center">
         {/* Creative Studio Illustration */}
         <svg
@@ -13,11 +14,11 @@ const NotFoundPage = () => {
           aria-label="Empty studio illustration"
         >
           {/* Backdrop glow */}
-          <circle cx="210" cy="130" r="110" fill="#EFE8DA" />
+          <circle cx="210" cy="130" r="110" fill="#EFE8DA" className="dark:opacity-20" />
 
           {/* Studio wall panels */}
           <rect x="70" y="60" width="280" height="150" rx="12" fill="#24352D" />
-          <rect x="82" y="72" width="256" height="126" rx="8" fill="#F5F1E8" />
+          <rect x="82" y="72" width="256" height="126" rx="8" fill="#F5F1E8" className="dark:fill-[#1B2922]" />
 
           {/* Spotlight beam */}
           <polygon
@@ -31,7 +32,7 @@ const NotFoundPage = () => {
           {/* Camera body */}
           <rect x="176" y="140" width="68" height="46" rx="10" fill="#24352D" />
           <rect x="192" y="128" width="24" height="16" rx="4" fill="#24352D" />
-          <circle cx="210" cy="163" r="15" fill="#F5F1E8" />
+          <circle cx="210" cy="163" r="15" fill="#F5F1E8" className="dark:fill-[#121B16]" />
           <circle cx="210" cy="163" r="8" fill="#C58B55" />
           <circle cx="230" cy="150" r="3" fill="#C58B55" />
 
@@ -75,11 +76,11 @@ const NotFoundPage = () => {
           Error 404
         </p>
 
-        <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-[#24352D] md:text-5xl">
+        <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-[#24352D] dark:text-white md:text-5xl">
           This Set Doesn&apos;t Exist
         </h1>
 
-        <p className="mx-auto mt-4 max-w-md text-base leading-7 text-slate-500">
+        <p className="mx-auto mt-4 max-w-md text-base leading-7 text-slate-500 dark:text-gray-400">
           Looks like the page you are searching for is not on our studio floor.
           It may have been moved, deleted, or never existed.
         </p>
@@ -95,7 +96,7 @@ const NotFoundPage = () => {
 
           <Link
             href="/studios"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#24352D] px-7 py-4 text-base font-bold text-[#24352D] transition hover:bg-[#24352D] hover:text-white sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#24352D] px-7 py-4 text-base font-bold text-[#24352D] transition hover:bg-[#24352D] hover:text-white dark:border-[#C58B55] dark:text-white dark:hover:bg-[#24352D] sm:w-auto"
           >
             <Camera size={19} />
             Explore Studios

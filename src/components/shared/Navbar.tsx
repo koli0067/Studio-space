@@ -1,10 +1,18 @@
+
 "use client";
 
-import { Camera, ChevronDown, LayoutDashboard, Menu, X } from "lucide-react";
+import {
+  Camera,
+  ChevronDown,
+  LayoutDashboard,
+  Menu,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { signOut, useSession } from "@/lib/auth-client";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 
 const baseNavLinks = [
   { name: "Home", href: "/" },
@@ -25,6 +33,7 @@ export default function Navbar() {
 
   const { data: session } = useSession();
   const pathname = usePathname();
+
   const isActive = (href: string) => pathname === href;
 
   const handleLogout = async () => {
@@ -34,45 +43,53 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#E8E3D9] bg-[#F5F1E8]/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-[#E8E3D9] bg-[#F5F1E8]/95 text-[#24352D] backdrop-blur-md transition-colors duration-300 dark:border-gray-700 dark:bg-gray-950/95 dark:text-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#24352D] text-white">
             <Camera size={27} strokeWidth={2} />
           </div>
 
-          <span className="text-2xl font-bold tracking-tight text-[#24352D] sm:text-3xl">
+          <span className="text-2xl font-bold tracking-tight text-[#24352D] dark:text-white sm:text-3xl">
             Studio<span className="text-[#C58B55]">Space</span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-7 xl:flex">
-          {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map(
-            (link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`whitespace-nowrap text-base font-semibold transition-colors duration-200 hover:text-[#C58B55] ${
-                  isActive(link.href) ? "text-[#C58B55]" : "text-[#24352D]"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ),
-          )}
+          {(session
+            ? [...baseNavLinks, ...authNavLinks]
+            : baseNavLinks
+          ).map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`whitespace-nowrap text-base font-semibold transition-colors duration-200 hover:text-[#C58B55] ${
+                isActive(link.href)
+                  ? "text-[#C58B55]"
+                  : "text-[#24352D] dark:text-gray-200"
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
 
         {/* Desktop Authentication */}
         <div className="hidden shrink-0 items-center gap-4 xl:flex">
+
+          <ThemeToggle />
+
           {session ? (
-            <div className="relative">
+            <div className="relative flex gap-2">
+
               {/* Profile Button */}
               <button
                 type="button"
                 onClick={() => setProfileOpen((v) => !v)}
-                className="flex items-center gap-3 rounded-xl border border-[#E8E3D9] px-3 py-2 transition hover:bg-[#E8E3D9]"
+                className="flex items-center gap-3 rounded-xl border border-[#E8E3D9] px-3 py-2 transition hover:bg-[#E8E3D9] dark:border-gray-700 dark:hover:bg-gray-800"
                 aria-expanded={profileOpen}
               >
                 {session.user?.image ? (
@@ -84,17 +101,19 @@ export default function Navbar() {
                   />
                 ) : (
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#24352D] font-semibold text-white">
-                    {(session.user?.name || "U").charAt(0).toUpperCase()}
+                    {(session.user?.name || "U")
+                      .charAt(0)
+                      .toUpperCase()}
                   </div>
                 )}
 
-                <span className="font-semibold text-[#24352D]">
+                <span className="font-semibold text-[#24352D] dark:text-white">
                   {session.user?.name || "Profile"}
                 </span>
 
                 <ChevronDown
                   size={18}
-                  className={`text-[#24352D] transition-transform duration-200 ${
+                  className={`text-[#24352D] transition-transform duration-200 dark:text-white ${
                     profileOpen ? "rotate-180" : ""
                   }`}
                 />
@@ -102,13 +121,14 @@ export default function Navbar() {
 
               {/* Profile Dropdown */}
               {profileOpen && (
-                <div className="absolute right-0 z-50 mt-3 w-60 overflow-hidden rounded-xl border border-[#E8E3D9] bg-white shadow-xl">
-                  <div className="border-b border-[#E8E3D9] px-4 py-3">
-                    <p className="font-semibold text-[#24352D]">
+                <div className="absolute right-0 top-full z-50 mt-3 w-60 overflow-hidden rounded-xl border border-[#E8E3D9] bg-white shadow-xl dark:border-gray-700 dark:bg-gray-900">
+
+                  <div className="border-b border-[#E8E3D9] px-4 py-3 dark:border-gray-700">
+                    <p className="font-semibold text-[#24352D] dark:text-white">
                       {session.user?.name || "User"}
                     </p>
 
-                    <p className="truncate text-xs text-gray-500">
+                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">
                       {session.user?.email}
                     </p>
                   </div>
@@ -116,7 +136,7 @@ export default function Navbar() {
                   <Link
                     href="/dashboard"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8]"
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8] dark:text-gray-200 dark:hover:bg-gray-800"
                   >
                     <LayoutDashboard size={18} />
                     Dashboard
@@ -125,7 +145,7 @@ export default function Navbar() {
                   <Link
                     href="/dashboard/add-studio"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8]"
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8] dark:text-gray-200 dark:hover:bg-gray-800"
                   >
                     Add New Studio
                   </Link>
@@ -133,7 +153,7 @@ export default function Navbar() {
                   <Link
                     href="/dashboard/my-listings"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8]"
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8] dark:text-gray-200 dark:hover:bg-gray-800"
                   >
                     My Studio Listings
                   </Link>
@@ -141,7 +161,7 @@ export default function Navbar() {
                   <Link
                     href="/dashboard/my-bookings"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8]"
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#24352D] transition hover:bg-[#F5F1E8] dark:text-gray-200 dark:hover:bg-gray-800"
                   >
                     My Bookings
                   </Link>
@@ -149,7 +169,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={handleLogout}
-                    className="w-full border-t border-[#E8E3D9] px-4 py-3 text-left text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                    className="w-full border-t border-[#E8E3D9] px-4 py-3 text-left text-sm font-semibold text-red-600 transition hover:bg-red-50 dark:border-gray-700 dark:hover:bg-red-950/30"
                   >
                     Logout
                   </button>
@@ -160,7 +180,7 @@ export default function Navbar() {
             <>
               <Link
                 href="/login"
-                className="rounded-lg px-4 py-3 text-base font-semibold text-[#24352D] transition hover:text-[#C58B55]"
+                className="rounded-lg px-4 py-3 text-base font-semibold text-[#24352D] transition hover:text-[#C58B55] dark:text-gray-200"
               >
                 Login
               </Link>
@@ -175,36 +195,47 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          type="button"
-          onClick={() => setIsOpen((v) => !v)}
-          className="rounded-lg p-2.5 text-[#24352D] transition hover:bg-[#E8E3D9] xl:hidden"
-          aria-label="Toggle navigation menu"
-          aria-expanded={isOpen}
-        >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Mobile Controls */}
+        <div className="flex items-center gap-2 xl:hidden">
+          <ThemeToggle />
+
+          <button
+            type="button"
+            onClick={() => setIsOpen((v) => !v)}
+            className="rounded-lg p-2.5 text-[#24352D] transition hover:bg-[#E8E3D9] dark:text-white dark:hover:bg-gray-800"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="border-t border-[#E8E3D9] bg-[#F5F1E8] px-5 py-6 xl:hidden">
+        <div className="border-t border-[#E8E3D9] bg-[#F5F1E8] px-5 py-6 dark:border-gray-700 dark:bg-gray-950 xl:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-5">
-            {(session ? [...baseNavLinks, ...authNavLinks] : baseNavLinks).map(
-              (link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-base font-semibold text-[#24352D] transition hover:text-[#C58B55]"
-                >
-                  {link.name}
-                </Link>
-              ),
-            )}
 
-            <div className="flex flex-col gap-3 border-t border-[#E8E3D9] pt-5">
+            {(session
+              ? [...baseNavLinks, ...authNavLinks]
+              : baseNavLinks
+            ).map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className={`text-base font-semibold transition hover:text-[#C58B55] ${
+                  isActive(link.href)
+                    ? "text-[#C58B55]"
+                    : "text-[#24352D] dark:text-gray-200"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+
+            <div className="flex flex-col gap-3 border-t border-[#E8E3D9] pt-5 dark:border-gray-700">
+
               {session ? (
                 <>
                   {/* Mobile User Profile */}
@@ -218,16 +249,18 @@ export default function Navbar() {
                       />
                     ) : (
                       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#24352D] font-semibold text-white">
-                        {(session.user?.name || "U").charAt(0).toUpperCase()}
+                        {(session.user?.name || "U")
+                          .charAt(0)
+                          .toUpperCase()}
                       </div>
                     )}
 
                     <div>
-                      <p className="font-semibold text-[#24352D]">
+                      <p className="font-semibold text-[#24352D] dark:text-white">
                         {session.user?.name || "User"}
                       </p>
 
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         {session.user?.email}
                       </p>
                     </div>
@@ -255,7 +288,7 @@ export default function Navbar() {
                   <Link
                     href="/login"
                     onClick={() => setIsOpen(false)}
-                    className="rounded-lg border border-[#24352D] py-3 text-center font-semibold text-[#24352D] transition hover:bg-[#24352D] hover:text-white"
+                    className="rounded-lg border border-[#24352D] py-3 text-center font-semibold text-[#24352D] transition hover:bg-[#24352D] hover:text-white dark:border-gray-500 dark:text-white dark:hover:bg-gray-800"
                   >
                     Login
                   </Link>

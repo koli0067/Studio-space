@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -60,7 +61,7 @@ const AddStudioPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
+    <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 dark:bg-[#121B16] md:px-8">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8">
@@ -68,16 +69,16 @@ const AddStudioPage = () => {
             Studio Management
           </p>
 
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#24352D] md:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#24352D] dark:text-white md:text-4xl">
             Add New Studio
           </h1>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-slate-500 dark:text-gray-400">
             Fill in the details below to list your studio on StudioSpace.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-[#E8E3D9] bg-white p-6 shadow-sm md:p-8">
+        <div className="rounded-2xl border border-[#E8E3D9] bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-[#1B2922] md:p-8">
           <StudioForm
             submitLabel="Add Studio"
             submitting={submitting}

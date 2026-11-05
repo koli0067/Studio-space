@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ArrowLeft } from "lucide-react";
@@ -18,6 +19,7 @@ interface StudioApiResponse {
   categorySlug: string;
   description: string;
   image: string;
+  images?: string[];
   location: string;
   pricePerHour: number;
   securityDeposit?: number;
@@ -67,6 +69,7 @@ const UpdateStudioPage = () => {
           categorySlug: data.categorySlug,
           description: data.description,
           image: data.image,
+          images: data.images ?? [],
           location: data.location,
           pricePerHour: data.pricePerHour,
           securityDeposit: data.securityDeposit ?? 0,
@@ -134,27 +137,28 @@ const UpdateStudioPage = () => {
     }
   };
 
- if (loading) {
+  if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8]">
-        <p className="text-xl font-semibold text-[#24352D] animate-pulse">
+      <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8] dark:bg-[#121B16]">
+        <p className="animate-pulse text-xl font-semibold text-[#24352D] dark:text-white">
           Loading...
         </p>
       </div>
     );
   }
 
-  
   if (error || !studio) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-[#F5F1E8] px-4">
+      <div className="flex min-h-[70vh] items-center justify-center bg-[#F5F1E8] px-4 dark:bg-[#121B16]">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-[#24352D]">
+          <h1 className="text-2xl font-bold text-[#24352D] dark:text-white">
             {error || "Studio not found"}
           </h1>
-          <p className="mt-2 text-slate-500">
+
+          <p className="mt-2 text-slate-500 dark:text-gray-400">
             This studio may have been removed or the link is invalid.
           </p>
+
           <Link
             href="/my-listings"
             className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#24352D] px-6 py-3 font-semibold text-white transition hover:bg-[#344A3F]"
@@ -168,7 +172,7 @@ const UpdateStudioPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
+    <div className="min-h-screen bg-[#F5F1E8] px-4 py-10 dark:bg-[#121B16] md:px-8">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8">
@@ -176,16 +180,16 @@ const UpdateStudioPage = () => {
             Studio Management
           </p>
 
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#24352D] md:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#24352D] dark:text-white md:text-4xl">
             Update Studio
           </h1>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-slate-500 dark:text-gray-400">
             Update the details of your existing studio listing.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-[#E8E3D9] bg-white p-6 shadow-sm md:p-8">
+        <div className="rounded-2xl border border-[#E8E3D9] bg-white p-6 shadow-sm dark:border-[#34483D] dark:bg-[#1B2922] md:p-8">
           <StudioForm
             initialValues={studio}
             submitLabel="Update Studio"

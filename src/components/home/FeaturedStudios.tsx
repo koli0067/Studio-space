@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Star } from "lucide-react";
@@ -44,13 +45,13 @@ export default function FeaturedStudios() {
   }, []);
 
   return (
-    <section className="bg-[#F5F1E8] px-5 py-20 sm:px-8 lg:py-24">
+    <section className="bg-[#F5F1E8] px-5 py-20 dark:bg-[#121B16] sm:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[3px] text-[#C58B55]">
             Featured Studios
           </p>
-          <h2 className="text-3xl font-bold text-[#24352D] sm:text-4xl">
+          <h2 className="text-3xl font-bold text-[#24352D] dark:text-white sm:text-4xl">
             Top Spaces for Your Next Shoot
           </h2>
         </div>
@@ -60,15 +61,17 @@ export default function FeaturedStudios() {
             <Spinner className="h-10 w-10" />
           </div>
         ) : studios.length === 0 ? (
-          <p className="text-center text-gray-500">No studios available.</p>
+          <p className="text-center text-gray-500 dark:text-gray-400">
+            No studios available.
+          </p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {studios.map((studio) => (
               <div
                 key={studio._id}
-                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-gray-700 dark:bg-[#1B2922]"
               >
-                <div className="relative h-48 bg-gray-100">
+                <div className="relative h-48 bg-gray-100 dark:bg-gray-800">
                   <Image
                     src={studio.image || "/hero-studio.jpg"}
                     alt={studio.name}
@@ -89,10 +92,10 @@ export default function FeaturedStudios() {
                   ) : null}
                 </div>
                 <div className="p-5">
-                  <h3 className="text-lg font-bold text-[#24352D]">
+                  <h3 className="text-lg font-bold text-[#24352D] dark:text-white">
                     {studio.name}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     {studio.location}
                   </p>
                   <div className="mt-3 flex items-center justify-between">

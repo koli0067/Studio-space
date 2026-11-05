@@ -1,11 +1,12 @@
+
 import { ArrowRight, Camera, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function CallToAction() {
   return (
-    <section className="bg-white py-20  lg:py-24">
+    <section className="bg-white py-20 dark:bg-[#121B16] lg:py-24">
       <div className="mx-auto max-w-7xl">
-        <div className="relative overflow-hidden rounded-[30px] bg-[#24352D] px-6 py-16 text-center sm:px-12 lg:py-20">
+        <div className="relative overflow-hidden rounded-[30px] bg-[#24352D] px-6 py-16 text-center sm:px-12 lg:py-20 dark:bg-[#1B2922]">
           {/* Decorative Background */}
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10" />
           <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full border border-white/10" />

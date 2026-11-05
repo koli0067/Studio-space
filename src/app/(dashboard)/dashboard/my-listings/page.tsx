@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -85,11 +86,11 @@ const MyListingss = () => {
     fetchMyStudios();
   }, [user?.email, isPending]);
 
-  // সাধারণ Loading... টেক্সট দেখানোর অংশ
+  // Loading
   if (isPending || loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8]">
-        <p className="text-xl font-semibold text-[#24352D] animate-pulse">
+      <div className="flex min-h-screen items-center justify-center bg-[#F5F1E8] dark:bg-[#121B16]">
+        <p className="animate-pulse text-xl font-semibold text-[#24352D] dark:text-white">
           Loading...
         </p>
       </div>
@@ -98,7 +99,7 @@ const MyListingss = () => {
 
   if (!user) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex min-h-[60vh] items-center justify-center bg-[#F5F1E8] dark:bg-[#121B16]">
         <EmptyState
           icon={LogIn}
           title="Please Login First"
@@ -116,11 +117,15 @@ const MyListingss = () => {
   }
 
   if (error) {
-    return <div className="py-20 text-center text-red-500">{error}</div>;
+    return (
+      <div className="min-h-screen bg-[#F5F1E8] py-20 text-center text-red-500 dark:bg-[#121B16]">
+        {error}
+      </div>
+    );
   }
 
   return (
-    <section className="min-h-screen bg-[#F5F1E8] px-4 py-10 md:px-8">
+    <section className="min-h-screen bg-[#F5F1E8] px-4 py-10 dark:bg-[#121B16] md:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8">
@@ -128,15 +133,17 @@ const MyListingss = () => {
             Dashboard
           </p>
 
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#24352D] md:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#24352D] dark:text-white md:text-4xl">
             My Listings
           </h1>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-slate-500 dark:text-gray-400">
             Manage the studios you have listed.
           </p>
 
-          <p className="mt-1 text-sm text-slate-400">{user.email}</p>
+          <p className="mt-1 text-sm text-slate-400 dark:text-gray-500">
+            {user.email}
+          </p>
         </div>
 
         {/* Studio Cards */}
@@ -156,7 +163,7 @@ const MyListingss = () => {
         ) : (
           <>
             <div className="mb-6">
-              <p className="font-medium text-slate-600">
+              <p className="font-medium text-slate-600 dark:text-gray-300">
                 Total Listings:{" "}
                 <span className="font-bold text-[#C58B55]">
                   {studios.length}
@@ -168,10 +175,10 @@ const MyListingss = () => {
               {studios.map((studio) => (
                 <div
                   key={studio._id}
-                  className="flex flex-col overflow-hidden rounded-2xl border border-[#E8E3D9] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                  className="flex flex-col overflow-hidden rounded-2xl border border-[#E8E3D9] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-gray-700 dark:bg-[#1B2922]"
                 >
                   {/* Image */}
-                  <div className="relative h-52 bg-slate-100">
+                  <div className="relative h-52 bg-slate-100 dark:bg-gray-800">
                     <img
                       src={studio.image}
                       alt={studio.name}
@@ -195,16 +202,16 @@ const MyListingss = () => {
                       {studio.categorySlug?.replaceAll("-", " ")}
                     </p>
 
-                    <h2 className="mb-2 text-xl font-bold text-[#24352D]">
+                    <h2 className="mb-2 text-xl font-bold text-[#24352D] dark:text-white">
                       {studio.name}
                     </h2>
 
-                    <p className="mb-4 line-clamp-2 text-sm text-slate-500">
+                    <p className="mb-4 line-clamp-2 text-sm text-slate-500 dark:text-gray-400">
                       {studio.description}
                     </p>
 
                     {/* Details */}
-                    <div className="space-y-3 border-t border-[#E8E3D9] pt-4 text-sm text-slate-600">
+                    <div className="space-y-3 border-t border-[#E8E3D9] pt-4 text-sm text-slate-600 dark:border-gray-700 dark:text-gray-300">
                       <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-[#C58B55]" />
                         <span>{studio.location}</span>
@@ -241,7 +248,7 @@ const MyListingss = () => {
                         {studio.facilities.slice(0, 3).map((facility) => (
                           <span
                             key={facility}
-                            className="rounded-full bg-[#F5F1E8] px-3 py-1 text-xs text-[#24352D]"
+                            className="rounded-full bg-[#F5F1E8] px-3 py-1 text-xs text-[#24352D] dark:bg-[#24352D] dark:text-gray-200"
                           >
                             {facility}
                           </span>
@@ -254,7 +261,7 @@ const MyListingss = () => {
                       <div className="grid grid-cols-2 gap-3">
                         <Link
                           href={`/studios/edit/${studio._id}`}
-                          className="flex items-center justify-center gap-2 rounded-lg border border-[#24352D] px-5 py-2.5 text-sm font-semibold text-[#24352D] transition hover:bg-[#24352D] hover:text-white"
+                          className="flex items-center justify-center gap-2 rounded-lg border border-[#24352D] px-5 py-2.5 text-sm font-semibold text-[#24352D] transition hover:bg-[#24352D] hover:text-white dark:border-gray-500 dark:text-gray-200 dark:hover:bg-[#24352D] dark:hover:text-white"
                         >
                           <Pencil size={16} />
                           Update

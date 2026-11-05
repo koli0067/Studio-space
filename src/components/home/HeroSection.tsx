@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -46,7 +47,7 @@ export default function HeroSection() {
   const next = () => setCurrent((c) => (c + 1) % slides.length);
 
   return (
-    <section className="relative overflow-hidden bg-[#F5F1E8]">
+    <section className="relative overflow-hidden bg-[#F5F1E8] dark:bg-[#121B16]">
       <div className="relative mx-auto max-w-7xl px-4 py-16 lg:py-24">
         <div className="relative h-[420px] overflow-hidden rounded-[30px] shadow-2xl sm:h-[500px] lg:h-[560px]">
           {slides.map((slide, idx) => (
